@@ -1,0 +1,24 @@
+# Lokale, nicht versionierte Konfigurations-Overrides
+config.local.json
+
+# LOCK-System (Multi-Agenten-Koordination, nie committen)
+LOCK*.txt
+
+# Generierte Berichte (nur synthetische Beispiele in examples/ sind Teil des Repos)
+output/
+
+# Interne Arbeitsdokumente
+_intern/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.env
+
+# OS/Editor
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/

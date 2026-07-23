@@ -1,0 +1,19 @@
+# report-forge - Requirements
+# Version: 1.0.0
+
+python-docx>=1.2.0    # Word-Dokumentverarbeitung
+jsonschema>=4.22.0     # Schema-Validierung vor DOCX-Ausgabe
+
+# Optional (nur für mode="anonymized")
+# anonymizer-Modul (.MODULES/.DOMAINS/anonymizer, >=0.2.5) + dessen eigene
+# Abhängigkeiten (spacy, cryptography, ein deutsches NER-Modell) -- siehe
+# dort für Preflight/Installation.
+
+# Optional (erweiterte Dokumentformate in document_extraction.py /
+# services/document_pipeline.py)
+# pypdf>=4.0.0          # PDF-Textextraktion
+# openpyxl>=3.1.0       # Excel-Verarbeitung
+# extract-msg>=0.45.0   # Outlook .msg
+
+# Development
+# pytest>=7.4.0

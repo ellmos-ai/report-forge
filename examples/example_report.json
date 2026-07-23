@@ -1,0 +1,23 @@
+{
+  "subject": {
+    "name": "Beispielperson X",
+    "reference_date": "01.01.2026"
+  },
+  "findings": [
+    {
+      "code": "EX-1",
+      "statement": "Beispielhafter, vollständig erfundener Befund zur Illustration des Schemas.",
+      "status": 2
+    },
+    {
+      "code": "EX-2",
+      "statement": "Zweiter synthetischer Befund, ebenfalls rein illustrativ.",
+      "status": 3
+    }
+  ],
+  "summary": "Dies ist eine rein synthetische Zusammenfassung zur Demonstration von render_generic().",
+  "recommendation": {
+    "continue": true,
+    "notes": "Beispielhafte Anmerkung, kein realer Inhalt."
+  }
+}

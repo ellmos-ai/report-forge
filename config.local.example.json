@@ -1,0 +1,8 @@
+{
+  "_comment": "Kopieren nach config.local.json (gitignored) für lokale Overrides.",
+  "defaults": {
+    "schema_path": "C:\\Pfad\\zu\\eigenem\\schema.json",
+    "template_path": "C:\\Pfad\\zu\\eigener\\vorlage.docx",
+    "anonymization_mode": "anonymized"
+  }
+}

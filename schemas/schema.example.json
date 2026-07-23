@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/report-forge/schemas/schema-example-1.0.0.json",
+  "title": "Generic Report (report-forge Beispiel)",
+  "description": "Neutrales, domänen-unabhängiges Beispielschema für den report-forge-Kern. Zeigt die minimale Struktur, die render_generic() erwartet: ein Subjekt, eine Liste bewerteter Befunde (findings) und eine Zusammenfassung.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["subject", "findings", "summary"],
+  "properties": {
+    "subject": {
+      "type": "object",
+      "required": ["name", "reference_date"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "description": "Name/Bezeichnung des Berichtsgegenstands (ggf. Pseudonym)"},
+        "reference_date": {"type": "string", "description": "Referenzdatum, freies Format"}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "statement", "status"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1, "description": "Neutraler Referenzcode (domänenspezifisch, z.B. ICF-Code, Prüfpunkt-ID, Kapitel)"},
+          "statement": {"type": "string", "minLength": 1, "description": "Konkrete, belegte Aussage zu diesem Befund"},
+          "status": {"type": "integer", "enum": [1, 2, 3], "description": "1=nicht erreicht/zutreffend, 2=teilweise, 3=erreicht/zutreffend"}
+        }
+      }
+    },
+    "summary": {"type": "string", "minLength": 1, "description": "Freitext-Zusammenfassung"},
+    "recommendation": {
+      "type": "object",
+      "properties": {
+        "continue": {"type": "boolean", "description": "Fortsetzung empfohlen (true) oder Abschluss (false)"},
+        "notes": {"type": "string", "description": "Freitext-Begründung/Anmerkung"}
+      }
+    }
+  }
+}

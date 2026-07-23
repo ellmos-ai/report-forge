@@ -1,0 +1,40 @@
+{
+  "schema": "ellmos.module.v2",
+  "id": "report-forge",
+  "display_name": "report-forge",
+  "category": "domains",
+  "kind": "workflow",
+  "status": "released",
+  "visibility": "public",
+  "provides": [
+    "domain.reporting.pipeline-core"
+  ],
+  "requires": [],
+  "optional": [
+    "domain.privacy.anonymizer"
+  ],
+  "conflicts": [],
+  "surfaces": [
+    "workflow",
+    "skill"
+  ],
+  "state": {
+    "ownership": "external",
+    "location": "project"
+  },
+  "boundaries": {
+    "network": "none",
+    "data": "user-local",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ]
+  },
+  "source_of_truth": {
+    "type": "local-directory",
+    "path": ".",
+    "repository": null
+  },
+  "adapters": []
+}

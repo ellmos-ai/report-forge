@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "name": "report-forge",
+  "description": "Domänen-neutraler Kern für anonymisierbare Berichts-Pipelines",
+  "private": false,
+  "defaults": {
+    "schema_path": "schemas/schema.example.json",
+    "template_path": "templates/example_template.docx",
+    "anonymization_mode": "anonymized"
+  },
+  "anonymizer": {
+    "module_env": "ANONYMIZER_MODULE_PATH",
+    "keys_dir_env": "ANONYMIZER_KEYS_DIR",
+    "trusted_template_env": "ANONYMIZER_TRUSTED_TEMPLATE",
+    "min_version": "0.2.5",
+    "note": "Optionale Abhängigkeit -- nur nötig bei mode='anonymized'. Version 0.2.5 empfohlen: Anker-Prinzip + modell-unabhängige Oberflächenprüfung + trusted-template Media-Allowlist (siehe README 'Bekannte Probleme' im foerderplaner-Overlay für die Entwicklungsgeschichte 0.2.1-0.2.5)."
+  }
+}
