@@ -101,10 +101,48 @@ class PrepareResult:
 class FinishResult:
     success: bool = False
     output_folder: Path | None = None
+    published_path: Path | None = None
     files_processed: int = 0
     replacements: int = 0
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+
+
+def publish_copy(source: str | Path, output_dir: str | Path) -> Path:
+    """
+    Kopiert das fertige Dokument aus einer finish()-Ausgabe zusätzlich
+    nach `output_dir` (Publish-Schritt). Das Session-/Ziel-Original
+    bleibt UNVERÄNDERT bestehen -- dies ist eine reine Kopie.
+
+    `source` kann eine Datei sein (mode="plain": `output_folder` ist
+    dort direkt die Zieldatei) oder ein Ordner, der `report.docx`
+    enthält (mode="anonymized": `output_folder` ist der de-anonymisierte
+    Zielordner). Kollisionsschutz: existiert im Zielordner bereits eine
+    Datei gleichen Namens, wird ein Suffix `_JJJJMMTT-HHMM` angehängt;
+    `output_dir` wird bei Bedarf angelegt.
+
+    Sicherheitshinweis: Dieser Schritt rührt NICHT an der De-Anonymisierung
+    selbst (die bleibt unverändert fail-closed lokal) -- er ist eine
+    bewusste Nutzerentscheidung, wohin das bereits fertige Klartext-
+    Dokument zusätzlich kopiert wird. Zeigt `output_dir` auf einen
+    Cloud-Sync-Pfad (OneDrive/Dropbox/GDrive), liegt die Klartext-Ablage
+    dort in der Verantwortung des Nutzers.
+    """
+    source_path = Path(source)
+    src_file = source_path if source_path.is_file() else (source_path / "report.docx")
+    if not src_file.is_file():
+        raise FileNotFoundError(f"Kein fertiges Dokument zum Publizieren gefunden: {src_file}")
+
+    dest_dir = Path(output_dir).expanduser()
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    target = dest_dir / src_file.name
+    if target.exists():
+        stamp = datetime.now().strftime("%Y%m%d-%H%M")
+        target = dest_dir / f"{target.stem}_{stamp}{target.suffix}"
+
+    shutil.copy2(src_file, target)
+    return target
 
 
 def _is_within(path: Path, root: Path) -> bool:
@@ -469,9 +507,16 @@ class ReportWorkflow:
         output_folder: str | Path,
         password: str | None = None,
         template_path: str | Path | None = None,
+        output_dir: str | Path | None = None,
     ) -> FinishResult:
         """Render a report and (if the session was anonymized) deanonymize it
-        into a local output tree."""
+        into a local output tree.
+
+        `output_dir` (optional): zusätzlicher Publish-Schritt -- bei
+        Erfolg wird das fertige Dokument zusätzlich per Kopie dorthin
+        veröffentlicht (siehe publish_copy()). `output_folder` bleibt
+        die eigentliche, unveränderte Zieladresse dieses Aufrufs.
+        """
         result = FinishResult()
         session = Path(session_dir).expanduser().resolve()
         json_path = Path(llm_json_path).expanduser().resolve()
@@ -514,6 +559,11 @@ class ReportWorkflow:
                     return result
                 result.success = True
                 result.output_folder = output
+                if output_dir is not None:
+                    try:
+                        result.published_path = publish_copy(output, output_dir)
+                    except Exception as exc:
+                        result.warnings.append(f"Publish-Schritt fehlgeschlagen ({type(exc).__name__})")
                 return result
 
             client_id = str(metadata.get("client_id", ""))
@@ -560,6 +610,11 @@ class ReportWorkflow:
 
             result.success = True
             result.output_folder = output
+            if output_dir is not None:
+                try:
+                    result.published_path = publish_copy(output, output_dir)
+                except Exception as exc:
+                    result.warnings.append(f"Publish-Schritt fehlgeschlagen ({type(exc).__name__})")
             return result
         except Exception as exc:
             result.errors.append(f"Abschluss abgebrochen ({type(exc).__name__})")

@@ -6,7 +6,9 @@
   "defaults": {
     "schema_path": "schemas/schema.example.json",
     "template_path": "templates/example_template.docx",
-    "anonymization_mode": "anonymized"
+    "anonymization_mode": "anonymized",
+    "output_dir": null,
+    "inbox_dir": null
   },
   "anonymizer": {
     "module_env": "ANONYMIZER_MODULE_PATH",

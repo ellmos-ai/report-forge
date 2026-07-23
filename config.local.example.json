@@ -3,6 +3,10 @@
   "defaults": {
     "schema_path": "C:\\Pfad\\zu\\eigenem\\schema.json",
     "template_path": "C:\\Pfad\\zu\\eigener\\vorlage.docx",
-    "anonymization_mode": "anonymized"
+    "anonymization_mode": "anonymized",
+    "_output_dir_comment": "Publish-Ziel fertiger Berichte -- WARNUNG: zeigt dieser Pfad auf einen Cloud-Sync-Ordner (OneDrive/Dropbox/GDrive), liegt die Klartext-Ablage dort in der Verantwortung des Nutzers.",
+    "output_dir": "C:\\Pfad\\zu\\eigenem\\output-ordner",
+    "_inbox_dir_comment": "Abholort für process-inbox -- sollte i.d.R. NICHT cloud-synced sein, da Quellakten Klartext-Personendaten enthalten können.",
+    "inbox_dir": "C:\\Pfad\\zu\\eigenem\\inbox-ordner"
   }
 }

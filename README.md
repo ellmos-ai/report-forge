@@ -40,6 +40,19 @@ Für `mode="anonymized"` (Default) sind zusätzlich `real_name`,
 `finish()` erforderlich; das anonymizer-Modul (>=0.2.5) muss auffindbar
 sein (siehe `SKILL.md`).
 
+## Publish-Schritt & Abholort (output_dir / inbox_dir)
+
+Optionale `config.json`/`config.local.json`-Schlüssel `output_dir`
+(kopiert fertige Berichte zusätzlich dorthin) und `inbox_dir`
+(Abholort für den idempotenten Batch-Befehl `process-inbox`). Details,
+Kollisionsschutz und die **Cloud-Sync-Warnung** für `output_dir`: siehe
+`SKILL.md`, Abschnitt "Publish-Schritt (output_dir) und
+Abholort-Konvention (inbox_dir)".
+
+```bash
+python -m report_forge process-inbox --work sitzungen/ --mode plain --dry-run
+```
+
 ## Tests
 
 ```bash

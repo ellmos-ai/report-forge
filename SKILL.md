@@ -66,6 +66,37 @@ Platzhalter/welche Tabellenzeile abgebildet wird) ist bewusst NICHT Teil
 des Kerns -- das ist die eigentliche Domänenlogik und gehört ins Overlay
 (siehe `render_generic()` als minimales, aber lauffähiges Beispiel).
 
+## Publish-Schritt (output_dir) und Abholort-Konvention (inbox_dir)
+
+Zwei optionale Konfigurationsschlüssel in `config.json`/`config.local.json`
+(Auflösung: CLI-Argument > `config.local.json` > `config.json` > nicht
+gesetzt = Verhalten wie bisher, siehe `report_forge/config.py`):
+
+- **`output_dir`**: Nach erfolgreichem `finish()` wird das fertige Dokument
+  zusätzlich per Kopie dorthin veröffentlicht (`publish_copy()` in
+  `workflow.py`). Das Session-/`output_folder`-Original bleibt
+  unverändert bestehen -- der Publish-Schritt ist ein reiner Zusatz.
+  Kollisionsschutz: existiert im Ziel bereits eine Datei gleichen Namens,
+  wird `_JJJJMMTT-HHMM` angehängt; der Ordner wird bei Bedarf angelegt.
+  **WARNUNG:** Zeigt `output_dir` auf einen Cloud-Sync-Pfad (OneDrive,
+  Dropbox, Google Drive, ...), liegt die Klartext-Ablage der fertigen,
+  de-anonymisierten Berichte dort in der **Verantwortung des Nutzers**
+  -- dieses Modul trifft dazu keine Entscheidung und warnt nicht
+  automatisch zur Laufzeit.
+- **`inbox_dir`**: Abholort für den Batch-Befehl `process-inbox` /
+  `report_forge.inbox.process_inbox()`. Jeder direkte Unterordner von
+  `inbox_dir` gilt als eigene Quell-Akte und wird durch `prepare()`
+  geschickt. **Kein Daemon/Watcher** -- der Befehl ist idempotent (Marker
+  `.processed` je erfolgreich verarbeitetem Unterordner) und dafür
+  gedacht, von einer Automation (Scheduled Task, Cron) periodisch selbst
+  aufgerufen zu werden. Bei `mode="anonymized"` braucht jeder Unterordner
+  zusätzlich eine `.identity.json` (`{"real_name": ..., "birth_date":
+  ...}`, niemals einchecken/loggen) -- fehlt sie, wird der Unterordner
+  mit Fehler übersprungen statt eines stillen Klartext-Fallbacks. Ein
+  gemeinsames `password` (z.B. via `REPORT_FORGE_INBOX_PASSWORD`-Env für
+  automatisierte Läufe, da `getpass` bei umgeleitetem stdin hängt) gilt
+  für den gesamten Lauf.
+
 ## Neutrales Beispiel
 
 `schemas/schema.example.json` + `templates/example_template.docx`
