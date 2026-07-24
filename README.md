@@ -1,33 +1,57 @@
 # report-forge
 
-Domänen-neutraler Kern für anonymisierbare Berichts-Pipelines: Quelldokumente
-extrahieren → LLM-Prompt gegen ein konfigurierbares JSON-Schema erzeugen →
-Word-Vorlage mit dem LLM-Ergebnis befüllen. Anonymisierung ist über
-`mode="anonymized"`/`mode="plain"` schaltbar.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
+![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
+![Status](https://img.shields.io/badge/status-released-brightgreen.svg)
 
-Siehe `SKILL.md` für die vollständige Dokumentation (Anonymisierungs-Modi,
-Dependency-Injection-Punkte, Platzhalter-Konvention, bekannte Probleme).
+Domänen-neutraler Kern für anonymisierbare Berichts-Pipelines: Quelldokumente extrahieren → LLM-Prompt gegen ein konfigurierbares JSON-Schema erzeugen → Word-Vorlage mit dem LLM-Ergebnis befüllen. Anonymisierung ist über `mode="anonymized"` / `mode="plain"` schaltbar.
 
-## Installation
+> Siehe `SKILL.md` für die vollständige Entwicklerdokumentation (Anonymisierungs-Modi, Dependency-Injection-Punkte, Platzhalter-Konvention, bekannte Probleme).
+
+---
+
+## ⚡ Schnellübersicht
+
+| Merkmal | Beschreibung |
+|---|---|
+| **Architektur** | 3-Phasen Pipeline (`prepare` → LLM → `finish`) |
+| **Datenschutz** | Fail-Closed Anonymisierung (`mode="anonymized"`) via `anonymizer`-Modul (≥0.2.5) oder unverschlüsselt (`mode="plain"`) |
+| **Vorlagen** | Word (`.docx`) mit `{{PLATZHALTER}}`, dynamischen Tabellenzeilen und Checkbox-Steuerung |
+| **Automatisierung** | Idempotenter Batch-Runner (`process-inbox`) für periodische Hintergrundverarbeitung |
+| **Output & Storage** | Local-First Veröffentlichung (`output_dir`) mit automatischem Zeitstempel-Kollisionsschutz |
+
+---
+
+## 📦 Installation
 
 ```bash
-pip install -r requirements.txt  # python-docx, jsonschema; anonymizer-Modul optional
+pip install -r requirements.txt
 ```
+*(Optionale Anonymisierung benötigt das separat installierte `anonymizer`-Modul >=0.2.5)*
 
-## Schnellstart (mode="plain", ohne Anonymisierung)
+---
+
+## 🚀 Schnellstart (mode="plain", ohne Anonymisierung)
 
 ```python
 from report_forge.workflow import ReportWorkflow
 
 workflow = ReportWorkflow()
+
+# Phase 1: Quelldaten lesen und LLM-Prompt vorbereiten
 prepared = workflow.prepare(
-    source_folder="quelle/", work_root="sitzungen/", mode="plain",
+    source_folder="quelle/",
+    work_root="sitzungen/",
+    mode="plain",
 )
 # -> prepared.prompt_path enthält den fertigen LLM-Prompt
 
-# ... externes LLM aufrufen, Ergebnis als JSON in
-#     prepared.session_dir / "data_bundled" / "report.json" ablegen ...
+# Phase 2: Externes LLM aufrufen (außerhalb des Moduls)
+#          Ergebnis als JSON in prepared.session_dir / "data_bundled" / "report.json" ablegen
 
+# Phase 3: JSON-Ergebnis validieren, Word-Vorlage befüllen und Bericht finalisieren
 finished = workflow.finish(
     session_dir=prepared.session_dir,
     llm_json_path=prepared.session_dir / "data_bundled" / "report.json",
@@ -35,30 +59,31 @@ finished = workflow.finish(
 )
 ```
 
-Für `mode="anonymized"` (Default) sind zusätzlich `real_name`,
-`birth_date` und `password` bei `prepare()` sowie `password` bei
-`finish()` erforderlich; das anonymizer-Modul (>=0.2.5) muss auffindbar
-sein (siehe `SKILL.md`).
+> **Anonymisierter Modus (`mode="anonymized"`, Default):**
+> Bei `prepare()` sind zusätzlich `real_name`, `birth_date` und `password` erforderlich; bei `finish()` ist `password` notwendig. Das `anonymizer`-Modul (>=0.2.5) muss vorhanden sein (siehe `SKILL.md`).
 
-## Publish-Schritt & Abholort (output_dir / inbox_dir)
+---
 
-Optionale `config.json`/`config.local.json`-Schlüssel `output_dir`
-(kopiert fertige Berichte zusätzlich dorthin) und `inbox_dir`
-(Abholort für den idempotenten Batch-Befehl `process-inbox`). Details,
-Kollisionsschutz und die **Cloud-Sync-Warnung** für `output_dir`: siehe
-`SKILL.md`, Abschnitt "Publish-Schritt (output_dir) und
-Abholort-Konvention (inbox_dir)".
+## 📥 Batch-Abholort (`inbox_dir`) & Publish-Schritt (`output_dir`)
+
+Optionale Schlüssel in `config.json` oder `config.local.json`:
+- **`output_dir`**: Kopiert fertige Berichte automatisch in einen zentralen Veröffentlichungsordner.
+- **`inbox_dir`**: Abholort für den automatisierten Batch-Befehl `process-inbox`.
 
 ```bash
 python -m report_forge process-inbox --work sitzungen/ --mode plain --dry-run
 ```
 
-## Tests
+---
+
+## 🧪 Tests
 
 ```bash
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -q
 ```
 
-## Lizenz
+---
 
-MIT, siehe `LICENSE`.
+## 📄 Lizenz
+
+MIT, siehe [LICENSE](LICENSE).

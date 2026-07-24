@@ -1,0 +1,53 @@
+# report-forge
+
+> Domain-neutral core engine for schema-bound, anonymizable report generation pipelines.
+
+## Project Information
+
+- **Repository**: https://github.com/ellmos-ai/report-forge
+- **Organization**: ellmos-ai
+- **License**: MIT
+- **Last Checked**: 2026-07-24
+- **Language**: Python 3.10+
+- **Security & Privacy**: Local-first, fail-closed anonymization mode support via `anonymizer` module
+
+## Overview
+
+`report-forge` provides the core pipeline architecture for 3-phase automated document generation:
+1. `prepare()`: Extract source documents (Word/PDF/Text/Excel/Mail), optionally anonymize personal data, build schema-bound LLM prompt in a session workspace.
+2. `LLM execution`: External LLM generates schema-compliant JSON from the session prompt.
+3. `finish()`: Validate JSON response, populate Word (`.docx`) template, optional de-anonymization, publish finalized report.
+
+## Core Features
+
+- **Domain-Neutral Core**: Separates pipeline orchestration engine from domain-specific overlays (schemas, prompts, templates).
+- **Dual Privacy Modes**: `mode="anonymized"` (default, fail-closed integration with `anonymizer` >=0.2.5) or `mode="plain"` (unencrypted/unredacted).
+- **Template Engine**: Robust `.docx` placeholder replacement (`{{KEY}}`, tabular placeholder mapping, checkbox toggling).
+- **Automated Inbox Batching**: Idempotent `process-inbox` CLI command for periodic background document processing.
+- **Publishing & Storage**: Local-first publishing to designated `output_dir` with duplicate timestamping collision protection.
+
+## Usage
+
+### CLI
+```bash
+python -m report_forge process-inbox --work sitzungen/ --mode plain --dry-run
+```
+
+### Python API
+```python
+from report_forge.workflow import ReportWorkflow
+
+workflow = ReportWorkflow()
+prepared = workflow.prepare(source_folder="input_docs/", work_root="sessions/", mode="plain")
+# External LLM processes prepared.prompt_path -> output json to session_dir
+finished = workflow.finish(
+    session_dir=prepared.session_dir,
+    llm_json_path=prepared.session_dir / "data_bundled" / "report.json",
+    output_folder="output/final_report.docx"
+)
+```
+
+## Testing
+```bash
+PYTHONIOENCODING=utf-8 python -m pytest tests/ -q
+```
