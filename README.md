@@ -6,9 +6,26 @@
 ![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
 ![Status](https://img.shields.io/badge/status-released-brightgreen.svg)
 
+> [!NOTE]
+> Dieses Repository ist für KI-Agenten und automatisierte Workflows optimiert. Maschinenlesbare Spezifikationen und Integrationshinweise befinden sich in [`llms.txt`](llms.txt) sowie [`SKILL.md`](SKILL.md).
+
 Domänen-neutraler Kern für anonymisierbare Berichts-Pipelines: Quelldokumente extrahieren → LLM-Prompt gegen ein konfigurierbares JSON-Schema erzeugen → Word-Vorlage mit dem LLM-Ergebnis befüllen. Anonymisierung ist über `mode="anonymized"` / `mode="plain"` schaltbar.
 
-> Siehe `SKILL.md` für die vollständige Entwicklerdokumentation (Anonymisierungs-Modi, Dependency-Injection-Punkte, Platzhalter-Konvention, bekannte Probleme).
+---
+
+## 🏗️ Systemarchitektur
+
+```mermaid
+flowchart LR
+    A["Quelldokumente\n(Word/PDF/Text/Excel)"] -->|prepare| B["Session Workspace\n(prompt.txt & data_bundled)"]
+    B -->|External LLM| C["JSON-Response\n(report.json)"]
+    C -->|finish| D["Finaler Bericht\n(.docx in output_dir)"]
+
+    subgraph Privacy ["Datenschutz-Schicht"]
+        E["anonymizer module\n(mode='anonymized')"]
+    end
+    E -.- B
+```
 
 ---
 

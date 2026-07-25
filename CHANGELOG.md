@@ -2,6 +2,16 @@
 
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
+## [1.1.2] - 2026-07-25
+
+### Hinzugefügt
+- **PEP 621 `pyproject.toml`**: Standardkonfiguration für Paket-Metadaten, PyPI-Packaging und `pytest`-Pfade.
+- **Mermaid-Architekturdiagramm**: Visuelle Darstellung der 3-Phasen-Pipeline (`prepare` → LLM → `finish`) in `README.md`.
+- **GFM LLM-Callout**: Strukturierte KI-/Agenten-Hinweisbox in `README.md`.
+
+### Geändert
+- **Verification Timestamp**: `llms.txt` Last-Checked Datum auf 2026-07-25 aktualisiert.
+
 ## [1.1.1] - 2026-07-24
 
 ### Hinzugefügt
