@@ -7,7 +7,7 @@
 - **Repository**: https://github.com/ellmos-ai/report-forge
 - **Organization**: ellmos-ai
 - **License**: MIT
-- **Last Checked**: 2026-07-25
+- **Last Checked**: 2026-07-27
 - **Language**: Python 3.10+
 - **Security & Privacy**: Local-first, fail-closed anonymization mode support via `anonymizer` module
 

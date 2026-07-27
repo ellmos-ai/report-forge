@@ -1,5 +1,6 @@
 # report-forge
 
+![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
