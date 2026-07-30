@@ -1,5 +1,8 @@
 # report-forge
 
+<img src="assets/banner.png" width="100%" alt="Report Forge banner">
+
+
 Language: [English](README.md) | [Deutsch](README_de.md)
 
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
