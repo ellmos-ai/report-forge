@@ -2,6 +2,16 @@
 
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
+## [1.1.4] - 2026-07-30
+
+### Hinzugefügt
+- **Bilinguale Dokumentation**: Deutsche Dokumentation (`README_de.md`) angelegt, Sprach-Umschalter (`[English](README.md) | [Deutsch](README_de.md)`) in `README.md` & `README_de.md` ergänzt.
+- **Pytest Status Badge**: Shields.io Badge für 22 bestandene Tests (`22 passed`) integriert.
+
+### Geändert
+- **Verification Timestamp**: `llms.txt` Last-Checked Datum auf 2026-07-30 aktualisiert.
+- **Version Bump**: `pyproject.toml` Version auf 1.1.4 angehoben.
+
 ## [1.1.3] - 2026-07-27
 
 ### Hinzugefügt
