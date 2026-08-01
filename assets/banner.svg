@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EBF8FF"/>
+      <stop offset="45%" stop-color="#F0F4FF"/>
+      <stop offset="100%" stop-color="#E6FFFA"/>
+    </linearGradient>
+
+    <linearGradient id="sunburstGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#EDF2F7" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Paper Colors -->
+    <linearGradient id="paperWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F7FAFC"/>
+    </linearGradient>
+
+    <linearGradient id="paperYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEFCBF"/>
+      <stop offset="100%" stop-color="#FAF089"/>
+    </linearGradient>
+
+    <linearGradient id="paperBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EBF8FF"/>
+      <stop offset="100%" stop-color="#C3D9FF"/>
+    </linearGradient>
+
+    <linearGradient id="paperPink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5F5"/>
+      <stop offset="100%" stop-color="#FED7D7"/>
+    </linearGradient>
+
+    <linearGradient id="paperTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E6FFFA"/>
+      <stop offset="100%" stop-color="#B2F5EA"/>
+    </linearGradient>
+
+    <linearGradient id="heroCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8FAFC"/>
+    </linearGradient>
+
+    <style>
+      .text-title {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 900;
+        fill: #1A202C;
+      }
+      .text-subtitle {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 600;
+        fill: #4A5568;
+      }
+      .text-badge {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+      }
+    </style>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="1200" height="630" fill="url(#skyGrad)"/>
+
+  <!-- Comic Sunburst Background Rays -->
+  <g opacity="0.3">
+    <polygon points="600,315 -100,-100 1300,-100" fill="url(#sunburstGrad)"/>
+    <polygon points="600,315 1300,-100 1300,730" fill="url(#sunburstGrad)"/>
+    <polygon points="600,315 -100,730 -100,-100" fill="url(#sunburstGrad)"/>
+  </g>
+
+  <!-- Comic Clouds -->
+  <g fill="#FFFFFF" stroke="#CBD5E0" stroke-width="2.5" opacity="0.9">
+    <!-- Top Left Cloud -->
+    <path d="M 30,80 Q 50,50 80,60 Q 110,30 150,50 Q 190,40 220,70 Q 240,100 210,120 Q 170,130 130,125 Q 80,130 40,110 Q 20,95 30,80 Z"/>
+    <!-- Top Right Cloud -->
+    <path d="M 970,70 Q 1000,40 1040,50 Q 1080,30 1120,55 Q 1160,45 1180,80 Q 1190,110 1150,125 Q 1110,135 1050,125 Q 1000,130 970,105 Q 950,85 970,70 Z"/>
+    <!-- Bottom Left Cloud -->
+    <path d="M -30,540 Q 0,510 40,520 Q 80,500 120,525 Q 150,515 170,550 Q 180,580 150,605 Q 100,615 40,605 Q -10,610 -30,580 Z"/>
+    <!-- Bottom Right Cloud -->
+    <path d="M 1030,540 Q 1060,510 1100,520 Q 1140,500 1180,525 Q 1210,515 1230,550 Q 1230,595 1170,605 Q 1110,610 1050,595 Q 1010,580 1030,540 Z"/>
+  </g>
+
+  <!-- Wind Swooshes & Trajectories -->
+  <g stroke="#3182CE" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.45">
+    <path d="M 70,160 Q 200,110 380,190 T 680,170" stroke-dasharray="12 8"/>
+    <path d="M 700,110 Q 880,70 1040,150 T 1160,230" stroke-dasharray="14 10"/>
+    <path d="M 50,390 Q 180,330 320,430 T 520,450" stroke-dasharray="10 8"/>
+    <path d="M 780,470 Q 940,410 1100,490" stroke-dasharray="16 10"/>
+    <path d="M 220,50 Q 320,110 460,80" stroke-dasharray="8 6"/>
+  </g>
+
+
+  <!-- ==================== FALLING PAGES / REPORTS ==================== -->
+
+  <!-- Page 1: Top Far Left (White Report Sheet) -->
+  <g transform="translate(60, 50)">
+    <g transform="rotate(-24)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,14; 0,0" dur="5s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="75" height="98" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="75" height="98" rx="4" fill="url(#paperWhite)" stroke="#2D3748" stroke-width="2.5"/>
+      <path d="M 59,0 L 75,16 L 59,16 Z" fill="#CBD5E0" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="32" height="7" rx="2" fill="#3182CE"/>
+      <path d="M 10,27 Q 30,25 58,28 M 10,36 Q 35,38 58,34 M 10,45 Q 25,43 50,47 M 10,54 Q 35,56 58,52 M 10,63 Q 28,61 45,64 M 10,72 Q 35,70 56,73 M 10,81 Q 25,83 42,80" stroke="#4A5568" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 2: Top Center Left (Yellow Data Sheet) -->
+  <g transform="translate(320, 40)">
+    <g transform="rotate(18)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-14; 0,0" dur="6s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="82" height="106" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="82" height="106" rx="4" fill="url(#paperYellow)" stroke="#2D3748" stroke-width="2.5"/>
+      <path d="M 66,0 L 82,16 L 66,16 Z" fill="#D69E2E" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="12" y="14" width="40" height="8" rx="2" fill="#D69E2E"/>
+      <path d="M 12,30 Q 38,28 68,31 M 12,40 Q 42,42 68,38 M 12,50 Q 28,48 58,52 M 12,60 Q 38,62 68,59 M 12,70 Q 46,68 62,71 M 12,80 Q 28,82 52,79 M 12,90 Q 32,88 48,91" stroke="#744210" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="58" cy="80" r="9" fill="none" stroke="#E53E3E" stroke-width="2" stroke-dasharray="3 2"/>
+    </g>
+  </g>
+
+  <!-- Page 3: Top Right (Teal Schema Page with Mini Bar Graph) -->
+  <g transform="translate(810, 45)">
+    <g transform="rotate(-32)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 5,16; 0,0" dur="4.5s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="78" height="100" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="78" height="100" rx="4" fill="url(#paperTeal)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="35" height="7" rx="2" fill="#319795"/>
+      <path d="M 10,28 Q 30,26 62,29 M 10,38 Q 40,40 58,36 M 10,48 Q 25,46 62,49 M 10,58 Q 35,60 52,56" stroke="#234E52" stroke-width="2" stroke-linecap="round"/>
+      <rect x="12" y="74" width="8" height="14" fill="#319795" rx="1"/>
+      <rect x="24" y="68" width="8" height="20" fill="#319795" rx="1"/>
+      <rect x="36" y="78" width="8" height="10" fill="#319795" rx="1"/>
+      <path d="M 10,90 L 52,90" stroke="#234E52" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- Page 4: Top Far Right (Pink Anonymized Sheet) -->
+  <g transform="translate(1040, 70)">
+    <g transform="rotate(26)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -4,15; 0,0" dur="5.5s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="72" height="92" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="72" height="92" rx="4" fill="url(#paperPink)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="30" height="6" rx="2" fill="#E53E3E"/>
+      <rect x="10" y="26" width="38" height="5" fill="#742A2A" rx="1"/>
+      <path d="M 10,38 Q 30,36 55,39" stroke="#742A2A" stroke-width="2" stroke-linecap="round"/>
+      <rect x="10" y="47" width="44" height="5" fill="#742A2A" rx="1"/>
+      <path d="M 10,59 Q 25,61 48,58 M 10,68 Q 32,66 52,69 M 10,77 Q 20,79 38,76" stroke="#742A2A" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 5: Mid Far Left (Blue Checklist Page) -->
+  <g transform="translate(40, 240)">
+    <g transform="rotate(40)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 6,18; 0,0" dur="4s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="85" height="110" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="85" height="110" rx="4" fill="url(#paperBlue)" stroke="#2D3748" stroke-width="2.5"/>
+      <path d="M 70,0 L 85,15 L 70,15 Z" fill="#63B3ED" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="12" y="14" width="42" height="8" rx="2" fill="#2B6CB0"/>
+      <rect x="12" y="30" width="8" height="8" rx="1" fill="none" stroke="#2B6CB0" stroke-width="1.5"/>
+      <path d="M 14,34 L 17,37 L 22,31" stroke="#2B6CB0" stroke-width="1.5" fill="none"/>
+      <path d="M 26,34 Q 45,32 70,35" stroke="#2C5282" stroke-width="2" stroke-linecap="round"/>
+
+      <rect x="12" y="46" width="8" height="8" rx="1" fill="none" stroke="#2B6CB0" stroke-width="1.5"/>
+      <path d="M 14,50 L 17,53 L 22,47" stroke="#2B6CB0" stroke-width="1.5" fill="none"/>
+      <path d="M 26,50 Q 48,48 68,52" stroke="#2C5282" stroke-width="2" stroke-linecap="round"/>
+
+      <rect x="12" y="62" width="8" height="8" rx="1" fill="none" stroke="#2B6CB0" stroke-width="1.5"/>
+      <path d="M 26,66 Q 42,64 65,67" stroke="#2C5282" stroke-width="2" stroke-linecap="round"/>
+
+      <path d="M 12,80 Q 40,78 70,81 M 12,90 Q 30,92 60,88" stroke="#2C5282" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 6: Mid Left Lower (White Report Page) -->
+  <g transform="translate(180, 360)">
+    <g transform="rotate(-16)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -5,12; 0,0" dur="5.2s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="78" height="100" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="78" height="100" rx="4" fill="url(#paperWhite)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="35" height="7" rx="2" fill="#805AD5"/>
+      <path d="M 10,26 Q 30,24 60,27 M 10,34 Q 40,37 65,33 M 10,42 Q 25,40 55,44 M 10,50 Q 35,52 60,49 M 10,58 Q 30,56 50,59 M 10,66 Q 40,64 62,67 M 10,74 Q 20,76 45,73 M 10,82 Q 35,80 58,83" stroke="#4A5568" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 7: Mid Right (Yellow Doc Page) -->
+  <g transform="translate(930, 230)">
+    <g transform="rotate(-22)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-15; 0,0" dur="6.2s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="85" height="110" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="85" height="110" rx="4" fill="url(#paperYellow)" stroke="#2D3748" stroke-width="2.5"/>
+      <path d="M 70,0 L 85,15 L 70,15 Z" fill="#D69E2E" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="12" y="14" width="42" height="8" rx="2" fill="#B7791F"/>
+      <path d="M 12,30 Q 40,28 72,32 M 12,40 Q 30,42 68,38 M 12,50 Q 48,47 70,51 M 12,60 Q 35,63 65,59 M 12,70 Q 42,67 72,71 M 12,80 Q 25,83 60,78 M 12,90 Q 40,88 65,92" stroke="#744210" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 8: Mid Far Right (Teal Page) -->
+  <g transform="translate(1060, 360)">
+    <g transform="rotate(34)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 4,16; 0,0" dur="4.2s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="76" height="96" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="76" height="96" rx="4" fill="url(#paperTeal)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="32" height="6" rx="2" fill="#319795"/>
+      <path d="M 10,26 Q 30,24 60,27 M 10,34 Q 40,36 55,32 M 10,42 Q 25,40 58,43 M 10,50 Q 35,52 50,48 M 10,58 Q 30,56 60,59 M 10,66 Q 40,64 55,67 M 10,74 Q 25,76 45,73" stroke="#234E52" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 9: Bottom Left (Pink Page) -->
+  <g transform="translate(70, 470)">
+    <g transform="rotate(14)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-12; 0,0" dur="5.8s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="82" height="105" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="82" height="105" rx="4" fill="url(#paperPink)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="12" y="14" width="38" height="7" rx="2" fill="#DD6B20"/>
+      <path d="M 12,28 Q 35,26 65,29 M 12,37 Q 40,39 60,35 M 12,46 Q 25,44 65,48 M 12,55 Q 35,57 55,53 M 12,64 Q 40,62 65,66 M 12,73 Q 25,75 50,71 M 12,82 Q 35,80 60,84 M 12,91 Q 25,93 45,89" stroke="#742A2A" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 10: Bottom Center Left (White Page) -->
+  <g transform="translate(290, 470)">
+    <g transform="rotate(-35)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 6,15; 0,0" dur="4.8s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="72" height="92" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="72" height="92" rx="4" fill="url(#paperWhite)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="30" height="6" rx="2" fill="#3182CE"/>
+      <path d="M 10,25 Q 30,23 55,26 M 10,33 Q 25,35 50,32 M 10,41 Q 35,39 55,42 M 10,49 Q 20,51 45,48 M 10,57 Q 30,55 55,58 M 10,65 Q 25,67 40,64 M 10,73 Q 35,71 50,74" stroke="#4A5568" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 11: Bottom Center Right (Yellow Sheet) -->
+  <g transform="translate(770, 475)">
+    <g transform="rotate(22)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 0,-14; 0,0" dur="5.4s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="80" height="102" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="80" height="102" rx="4" fill="url(#paperYellow)" stroke="#2D3748" stroke-width="2.5"/>
+      <path d="M 64,0 L 80,16 L 64,16 Z" fill="#D69E2E" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="12" y="14" width="36" height="7" rx="2" fill="#D69E2E"/>
+      <path d="M 12,28 Q 35,26 62,29 M 12,37 Q 40,39 60,35 M 12,46 Q 25,44 64,48 M 12,55 Q 35,57 52,53 M 12,64 Q 40,62 62,66 M 12,73 Q 25,75 50,71 M 12,82 Q 35,80 58,84" stroke="#744210" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Page 12: Bottom Far Right (Blue Sheet) -->
+  <g transform="translate(970, 480)">
+    <g transform="rotate(-18)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -4,12; 0,0" dur="4.6s" repeatCount="indefinite" additive="sum"/>
+      <rect x="4" y="5" width="75" height="95" rx="4" fill="#1A202C" opacity="0.15"/>
+      <rect width="75" height="95" rx="4" fill="url(#paperBlue)" stroke="#2D3748" stroke-width="2.5"/>
+      <rect x="10" y="12" width="32" height="6" rx="2" fill="#2B6CB0"/>
+      <path d="M 10,25 Q 30,23 55,26 M 10,33 Q 25,35 50,32 M 10,41 Q 35,39 55,42 M 10,49 Q 20,51 45,48 M 10,57 Q 30,55 55,58 M 10,65 Q 25,67 40,64 M 10,73 Q 35,71 50,74" stroke="#2C5282" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Mini Accent Floating Scraps -->
+  <g opacity="0.85">
+    <g transform="translate(240, 150)">
+      <g transform="rotate(50)">
+        <rect width="40" height="52" rx="3" fill="#FFFFFF" stroke="#2D3748" stroke-width="2"/>
+        <path d="M 6,10 Q 20,8 32,11 M 6,18 Q 15,20 30,17 M 6,26 Q 22,24 32,27 M 6,34 Q 15,36 28,33" stroke="#718096" stroke-width="1.5"/>
+      </g>
+    </g>
+    <g transform="translate(730, 140)">
+      <g transform="rotate(-38)">
+        <rect width="45" height="58" rx="3" fill="#FEFCBF" stroke="#2D3748" stroke-width="2"/>
+        <path d="M 6,10 Q 22,8 36,11 M 6,18 Q 18,20 34,17 M 6,26 Q 24,24 36,27 M 6,34 Q 18,36 30,33 M 6,42 Q 22,40 32,43" stroke="#744210" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+
+
+  <!-- ==================== CENTRAL HERO BANNER ==================== -->
+
+  <g transform="translate(600, 315)">
+    <!-- Comic Outer Drop Shadow -->
+    <rect x="-315" y="-123" width="630" height="246" rx="24" fill="#1A202C" opacity="0.14"/>
+
+    <!-- Main Card Body -->
+    <rect x="-310" y="-120" width="620" height="240" rx="24" fill="url(#heroCardGrad)" stroke="#1A202C" stroke-width="4.5"/>
+
+    <!-- Inner Accent Frame -->
+    <rect x="-298" y="-108" width="596" height="216" rx="18" fill="none" stroke="#E2E8F0" stroke-width="2"/>
+
+    <!-- Top Badge Pill -->
+    <g transform="translate(0, -78)">
+      <rect x="-155" y="-16" width="310" height="32" rx="16" fill="#EBF8FF" stroke="#3182CE" stroke-width="2.5"/>
+      <text x="0" y="5" text-anchor="middle" class="text-badge" fill="#2B6CB0" font-size="13">REPORTS • RAINING DOWN</text>
+    </g>
+
+    <!-- Main Title "ReportForge" -->
+    <g transform="translate(0, 12)">
+      <!-- 3D Comic Text Drop Shadow -->
+      <text x="4" y="4" text-anchor="middle" class="text-title" font-size="74" letter-spacing="-1.5px" fill="#CBD5E0">ReportForge</text>
+      <!-- Main Text -->
+      <text x="0" y="0" text-anchor="middle" class="text-title" font-size="74" letter-spacing="-1.5px" fill="#1A202C">ReportForge</text>
+    </g>
+
+    <!-- Subtitle Line -->
+    <g transform="translate(0, 56)">
+      <text x="0" y="0" text-anchor="middle" class="text-subtitle" font-size="20">Schema-bound, automated report generation pipelines</text>
+    </g>
+
+    <!-- Bottom Feature Pills -->
+    <g transform="translate(0, 88)">
+      <g transform="translate(-160, 0)">
+        <rect x="-58" y="-13" width="116" height="26" rx="13" fill="#EDF2F7" stroke="#CBD5E0" stroke-width="1.5"/>
+        <text x="0" y="4" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="11.5" fill="#4A5568">📄 Extract</text>
+      </g>
+      <g transform="translate(0, 0)">
+        <rect x="-72" y="-13" width="144" height="26" rx="13" fill="#E6FFFA" stroke="#319795" stroke-width="1.5"/>
+        <text x="0" y="4" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="11.5" fill="#234E52">🔒 Schema &amp; Privacy</text>
+      </g>
+      <g transform="translate(160, 0)">
+        <rect x="-58" y="-13" width="116" height="26" rx="13" fill="#EDF2F7" stroke="#CBD5E0" stroke-width="1.5"/>
+        <text x="0" y="4" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="11.5" fill="#4A5568">⚡ Word .docx</text>
+      </g>
+    </g>
+  </g>
+
+
+  <!-- ==================== FOREGROUND OVERLAPPING PAGES ==================== -->
+
+  <!-- Foreground Page 1: Overlapping Top-Right Hero Card -->
+  <g transform="translate(850, 175)">
+    <g transform="rotate(14)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 4,14; 0,0" dur="4.4s" repeatCount="indefinite" additive="sum"/>
+      <rect x="5" y="6" width="82" height="106" rx="4" fill="#1A202C" opacity="0.18"/>
+      <rect width="82" height="106" rx="4" fill="url(#paperWhite)" stroke="#1A202C" stroke-width="3"/>
+      <path d="M 66,0 L 82,16 L 66,16 Z" fill="#CBD5E0" stroke="#1A202C" stroke-width="3"/>
+      <rect x="10" y="14" width="38" height="7" rx="2" fill="#3182CE"/>
+      <path d="M 10,28 Q 35,26 64,29 M 10,37 Q 40,39 62,35 M 10,46 Q 25,44 66,48 M 10,55 Q 35,57 54,53 M 10,64 Q 40,62 64,66 M 10,73 Q 25,75 52,71 M 10,82 Q 35,80 60,84" stroke="#2D3748" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Foreground Page 2: Overlapping Bottom-Left Hero Card -->
+  <g transform="translate(250, 375)">
+    <g transform="rotate(-20)">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -4,15; 0,0" dur="5.1s" repeatCount="indefinite" additive="sum"/>
+      <rect x="5" y="6" width="86" height="110" rx="4" fill="#1A202C" opacity="0.18"/>
+      <rect width="86" height="110" rx="4" fill="url(#paperYellow)" stroke="#1A202C" stroke-width="3"/>
+      <rect x="12" y="14" width="42" height="8" rx="2" fill="#DD6B20"/>
+      <path d="M 12,30 Q 40,28 70,32 M 12,40 Q 30,42 66,38 M 12,50 Q 45,47 70,51 M 12,60 Q 35,63 62,59 M 12,70 Q 40,67 70,71 M 12,80 Q 25,83 58,78 M 12,90 Q 35,88 64,92" stroke="#744210" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- Motion accent swirls -->
+  <path d="M 270,230 Q 300,210 290,190 Q 275,180 265,200 Q 260,220 290,225 Q 320,230 360,210" fill="none" stroke="#63B3ED" stroke-width="2" stroke-linecap="round" opacity="0.7" stroke-dasharray="6 4"/>
+  <path d="M 900,430 Q 930,410 920,390 Q 905,380 895,400 Q 890,420 920,425 Q 950,430 990,410" fill="none" stroke="#63B3ED" stroke-width="2" stroke-linecap="round" opacity="0.7" stroke-dasharray="6 4"/>
+
+</svg>

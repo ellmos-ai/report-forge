@@ -1,6 +1,6 @@
 # report-forge
 
-<img src="assets/banner.png" width="100%" alt="Report Forge banner">
+<img src="assets/banner.svg" width="100%" alt="ReportForge banner">
 
 
 Language: [English](README.md) | [Deutsch](README_de.md)
