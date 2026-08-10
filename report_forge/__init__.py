@@ -7,7 +7,7 @@ Berichts-Pipelines (Extraktion -> LLM-Prompt -> Word-Vorlage).
 License: MIT
 """
 
-__version__ = "1.1.0"
+__version__ = "1.1.4"
 __author__ = "Lukas Geiger"
 
 from pathlib import Path

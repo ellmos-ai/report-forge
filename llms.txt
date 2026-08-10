@@ -7,7 +7,7 @@
 - **Repository**: https://github.com/ellmos-ai/report-forge
 - **Organization**: ellmos-ai
 - **License**: MIT
-- **Last Checked**: 2026-07-30
+- **Last Checked**: 2026-08-10
 - **Language**: Python 3.10+
 - **Security & Privacy**: Local-first, fail-closed anonymization mode support via `anonymizer` module
 
@@ -51,3 +51,8 @@ finished = workflow.finish(
 ```bash
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -q
 ```
+
+Current local verification (2026-08-10): 22/22 Pytest tests, `compileall`,
+CLI help/version/info, and `git diff --check` pass. The optional `anonymizer`
+module is not installed in this environment, so no anonymized live run was
+claimed.
