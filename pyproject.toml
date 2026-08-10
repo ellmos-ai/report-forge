@@ -23,13 +23,29 @@ classifiers = [
 ]
 keywords = ["report-generation", "docx", "anonymization", "pipeline", "schema-bound", "llm-ready"]
 dependencies = [
-    "python-docx>=0.8.11",
-    "jsonschema>=4.0.0",
+    "python-docx>=1.2.0",
+    "jsonschema>=4.22.0",
+]
+
+[project.optional-dependencies]
+formats = [
+    "pypdf>=4.0.0",
+    "openpyxl>=3.1.0",
+    "extract-msg>=0.45.0",
+]
+test = [
+    "pytest>=7.4.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/ellmos-ai/report-forge"
 Repository = "https://github.com/ellmos-ai/report-forge"
+
+[tool.setuptools.packages.find]
+include = ["report_forge*"]
+
+[tool.setuptools.package-data]
+report_forge = ["data/*.json", "data/*.docx"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

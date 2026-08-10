@@ -50,9 +50,13 @@ flowchart LR
 ## 📦 Installation
 
 ```bash
-pip install -r requirements.txt
+pip install .
+pip install ".[formats]"  # optional: PDF-/Excel-/MSG-Extraktion
 ```
-*(Optionale Anonymisierung benötigt das separat installierte `anonymizer`-Modul >=0.2.5)*
+Die kanonischen Runtime-Versionen und optionalen Format-Extras stehen in
+`pyproject.toml`; `requirements.txt` spiegelt die beiden Runtime-Untergrenzen
+für Legacy-Aufrufer. Optionale Anonymisierung benötigt weiterhin das separat
+installierte `anonymizer`-Modul >=0.2.5.
 
 ---
 
@@ -96,6 +100,16 @@ Optionale Schlüssel in `config.json` oder `config.local.json`:
 ```bash
 python -m report_forge process-inbox --work sitzungen/ --mode plain --dry-run
 ```
+
+### Nicht-interaktive anonymisierte CLI
+
+Bei einer echten TTY bleiben verdeckte `getpass`-Prompts erhalten. In CI, Git
+Bash oder einer Pipe setzt `prepare` die Variablen
+`REPORT_FORGE_REAL_NAME`, `REPORT_FORGE_BIRTH_DATE` und `REPORT_FORGE_PASSWORD`;
+`finish` nutzt `REPORT_FORGE_PASSWORD`, `process-inbox`
+`REPORT_FORGE_INBOX_PASSWORD`. Die `--*-env`-Optionen enthalten nur
+Variablennamen, niemals Secret-Werte. Fehlt ohne TTY ein Secret, endet der
+Aufruf mit Exit 2 statt zu blockieren; Secret-Werte werden nie ausgegeben.
 
 ---
 

@@ -52,9 +52,9 @@ from .render_utils import RenderResult, normalize_umlaut_keys
 from .schema_service import load_schema, validate_report_schema
 from .services.word_template_service import WordTemplateService
 
-PACKAGE_DIR = Path(__file__).resolve().parent.parent
-DEFAULT_SCHEMA_PATH = PACKAGE_DIR / "schemas" / "schema.example.json"
-DEFAULT_TEMPLATE_PATH = PACKAGE_DIR / "templates" / "example_template.docx"
+PACKAGE_DIR = Path(__file__).resolve().parent
+DEFAULT_SCHEMA_PATH = PACKAGE_DIR / "data" / "schema.example.json"
+DEFAULT_TEMPLATE_PATH = PACKAGE_DIR / "data" / "example_template.docx"
 
 
 def build_generic_prompt(source_text: str, schema: dict) -> str:

@@ -104,13 +104,20 @@ gesetzt = Verhalten wie bisher, siehe `report_forge/config.py`):
 `examples/example_report.json` demonstrieren den vollen Zyklus ohne jede
 Domänenannahme. Siehe `examples/README.md`.
 
-## Bekannte Probleme
+## CLI-Secret-Vertrag und nicht-interaktive Läufe
 
-- CLI (`python -m report_forge prepare`/`finish`) hängt unter Windows/Git
-  Bash bzw. bei umgeleitetem stdin: `getpass.getpass()` liest via `msvcrt`
-  direkt von der Konsole und ignoriert Pipe/Heredoc-Eingaben. Workaround:
-  `ReportWorkflow.prepare()`/`.finish()` direkt über die Python-API
-  aufrufen (identischer Codepfad).
+- Bei einer echten TTY bleibt die verdeckte `getpass`-Eingabe erhalten.
+- Ohne TTY liest `prepare` ausschließlich die Variablen
+  `REPORT_FORGE_REAL_NAME`, `REPORT_FORGE_BIRTH_DATE` und
+  `REPORT_FORGE_PASSWORD`; `finish` nutzt `REPORT_FORGE_PASSWORD` für
+  anonymisierte Sitzungen, `process-inbox` `REPORT_FORGE_INBOX_PASSWORD`.
+- Die Variablennamen können über `--real-name-env`, `--birth-date-env` bzw.
+  `--password-env` überschrieben werden. Diese CLI-Optionen enthalten nur
+  Namen, niemals Passwortwerte; Secrets werden nicht geloggt.
+- Fehlt ein benötigtes Secret ohne TTY, beendet die CLI den Aufruf mit Exit 2
+  und einer wertfreien Diagnose, statt auf `getpass` zu warten. Plain-Sitzungen
+  benötigen bei `finish` kein Passwort; `process-inbox --dry-run` fragt keines
+  ab.
 
 ## Herkunft
 

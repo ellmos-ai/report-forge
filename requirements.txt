@@ -1,7 +1,7 @@
-# report-forge - Requirements
-# Version: 1.0.0
+# report-forge - Runtime compatibility requirements
+# Canonical metadata and optional extras live in pyproject.toml.
 
-python-docx>=1.2.0    # Word-Dokumentverarbeitung
+python-docx>=1.2.0     # Word-Dokumentverarbeitung
 jsonschema>=4.22.0     # Schema-Validierung vor DOCX-Ausgabe
 
 # Optional (nur für mode="anonymized")
@@ -9,11 +9,9 @@ jsonschema>=4.22.0     # Schema-Validierung vor DOCX-Ausgabe
 # Abhängigkeiten (spacy, cryptography, ein deutsches NER-Modell) -- siehe
 # dort für Preflight/Installation.
 
-# Optional (erweiterte Dokumentformate in document_extraction.py /
-# services/document_pipeline.py)
-# pypdf>=4.0.0          # PDF-Textextraktion
-# openpyxl>=3.1.0       # Excel-Verarbeitung
-# extract-msg>=0.45.0   # Outlook .msg
+# Optional (erweiterte Dokumentformate):
+#   pip install ".[formats]"
+# pypdf>=4.0.0, openpyxl>=3.1.0, extract-msg>=0.45.0
 
 # Development
-# pytest>=7.4.0
+#   pip install ".[test]"

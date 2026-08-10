@@ -22,7 +22,20 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest python-docx jsonschema
+          python -m pip install build pytest
+      - name: Build package artifacts
+        run: python -m build --sdist --wheel --outdir dist
+      - name: Install built distribution
+        run: python -m pip install dist/*.whl
+      - name: Verify dependency provenance
+        run: |
+          python -m pip check
+          python -c "from importlib.metadata import version; print('report-forge', version('report-forge')); print('python-docx', version('python-docx')); print('jsonschema', version('jsonschema'))"
+      - name: Installed import and CLI preflight
+        run: |
+          cd "$RUNNER_TEMP"
+          python -m report_forge --info
+          python -c "import report_forge; print(report_forge.__version__)"
       - name: Run tests
         run: |
-          pytest
+          python -m pytest
