@@ -6,6 +6,7 @@ LOCK*.txt
 
 # Generierte Berichte (nur synthetische Beispiele in examples/ sind Teil des Repos)
 output/
+/BEFUND.md
 
 # Interne Arbeitsdokumente
 _intern/
