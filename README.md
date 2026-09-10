@@ -8,9 +8,10 @@ Language: [English](README.md) | [Deutsch](README_de.md)
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-22%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-38%20passed-brightgreen.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
+![Security](https://img.shields.io/badge/security-SLA%2048h-brightgreen.svg)
 ![Status](https://img.shields.io/badge/status-released-brightgreen.svg)
 
 > [!NOTE]
@@ -118,6 +119,12 @@ exit 2 instead of blocking, and secret values are never printed.
 ```bash
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -q
 ```
+
+---
+
+## 🔒 Security & Privacy
+
+This repository follows local-first processing, zero unexpected network egress, and fail-closed anonymization. For vulnerability disclosures and SLAs, see [SECURITY.md](SECURITY.md).
 
 ---
 

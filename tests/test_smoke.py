@@ -11,7 +11,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PACKAGE_ROOT))
 
 from report_forge.workflow import ReportWorkflow  # noqa: E402
-from report_forge.generator import ReportGenerator, DEFAULT_SCHEMA_PATH, DEFAULT_TEMPLATE_PATH  # noqa: E402
+from report_forge.generator import ReportGenerator, DEFAULT_SCHEMA_PATH  # noqa: E402
 from report_forge.schema_service import load_schema, validate_report_schema  # noqa: E402
 from report_forge.document_extraction import extract_all_sources  # noqa: E402
 from report_forge.render_utils import fix_umlauts_in_values, normalize_umlaut_keys  # noqa: E402

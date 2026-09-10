@@ -2,6 +2,21 @@
 
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
+## [1.1.5] - 2026-09-10
+
+### Hinzugefügt
+- **Vertragstest-Suite**: Neue Vertragstest-Suite in `tests/test_metadata.py` mit 8 Contract-Tests (PEP 621 Metadaten, `.gitignore`-Hygiene, CI-Matrix-Spezifikation, Stale-Workflow, `SECURITY.md`-Präsenz & SLA, bilinguale README-Parität, Versionsparität, Schema- und Vorlagen-Invarianz).
+- **GitHub Actions Stale-Workflow**: Automatisiertes Schließen inaktiver Issues und PRs via `.github/workflows/stale.yml`.
+- **Bilinguale Sicherheitsrichtlinie**: `SECURITY.md` mit Local-First Zero-Egress Prinzipien, Fail-Closed Anonymisierungsgarantie, verbindlicher 48h-Reaktions-SLA und 5-Werktage-Triage-Zusage.
+- **PEP 621 URLs & Linter**: Erweiterung von `pyproject.toml` um `Documentation`, `Issues`, `Changelog` URLs, `requires-python = ">=3.10"`, `ruff` als Test-Dependency sowie `[tool.ruff]` Konfiguration.
+
+### Geändert
+- **CI-Matrix-Härtung**: `.github/workflows/tests.yml` mit Concurrency (`cancel-in-progress: true`), Ruff Code-Style-Check und Bytecode-Kompilierungsprüfung (`compileall`) gehärtet.
+- **Code-Hygiene**: Unbenutzte Imports in `report_forge/inbox.py` (`field`) und `tests/test_smoke.py` (`DEFAULT_TEMPLATE_PATH`) entfernt (`ruff check` 100% sauber).
+- **Gitignore-Härtung**: Multi-Host-Sync-Konflikte (`*-conflict-*`, `*.sync-*`), Multi-Agent-Locks (`LOCK`, `LOCK.*`, `*.lock`, `LOCK*.txt`), Caches (`.ruff_cache/`, `.coverage`, `htmlcov/`, `wheelhouse/`) und Editor-Backups in `.gitignore` aufgenommen.
+- **Dokumentations- und Badge-Parität**: `README.md` und `README_de.md` mit 38 passed Tests, Security-Badge und Sicherheitsabschnitt synchronisiert; `llms.txt` aktualisiert.
+- **Version Bump**: Version in `pyproject.toml` und `report_forge/__init__.py` auf `1.1.5` angehoben.
+
 ## [1.1.4] - 2026-07-30
 
 ### Hinzugefügt

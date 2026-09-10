@@ -1,8 +1,18 @@
-# Lokale, nicht versionierte Konfigurations-Overrides
+# Lokale, nicht versionierte Konfigurations-Overrides & Secrets
 config.local.json
+.env
+.env.*
+
+# Multi-Host Sync-Konflikte
+*-conflict-*
+*.sync-conflict-*
+*.sync-temp-*
 
 # LOCK-System (Multi-Agenten-Koordination, nie committen)
+LOCK
+LOCK.*
 LOCK*.txt
+*.lock
 
 # Generierte Berichte (nur synthetische Beispiele in examples/ sind Teil des Repos)
 output/
@@ -11,15 +21,28 @@ output/
 # Interne Arbeitsdokumente
 _intern/
 
-# Python
+# Python, Caches & Packaging
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+wheelhouse/
+.wheel-smoke/
 .venv/
-.env
 
-# OS/Editor
+# OS, Editors & Backups
 Thumbs.db
 .DS_Store
 .idea/
 .vscode/
+*.tmp
+*.bak
+*.swp
+*~

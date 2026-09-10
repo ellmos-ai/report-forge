@@ -4,9 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "report-forge"
-version = "1.1.4"
+version = "1.1.5"
 description = "Domain-neutral core engine for schema-bound, anonymizable report generation pipelines"
 readme = "README.md"
+requires-python = ">=3.10"
 authors = [
     { name = "Lukas Geiger", email = "lukas@um-bruch.org" }
 ]
@@ -35,11 +36,15 @@ formats = [
 ]
 test = [
     "pytest>=7.4.0",
+    "ruff>=0.1.0",
 ]
 
 [project.urls]
 Homepage = "https://github.com/ellmos-ai/report-forge"
 Repository = "https://github.com/ellmos-ai/report-forge"
+Documentation = "https://github.com/ellmos-ai/report-forge#readme"
+Issues = "https://github.com/ellmos-ai/report-forge/issues"
+Changelog = "https://github.com/ellmos-ai/report-forge/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["report_forge*"]
@@ -52,3 +57,11 @@ minversion = "7.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]
