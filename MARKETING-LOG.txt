@@ -1,0 +1,133 @@
+# MARKETING-LOG — ellmos-ai/report-forge
+
+> Repository-Discoverability, Zielgruppen-Mapping, Verzeichnis-Empfehlungen und Integrations-Blueprints.
+> Gepflegt gemäß Pfad B (Marketing & Design) durch GitHubBot / Antigravity.
+
+Stand: 2026-09-11
+Version: 1.1.6
+Repository: https://github.com/ellmos-ai/report-forge
+Organisation: ellmos-ai
+Dachorganisation: open-bricks
+Lizenz: MIT
+
+---
+
+## 1. Executive Summary & Positionierung
+
+`report-forge` ist die domänen-neutrale Kern-Engine für schema-gebundene, datenschutzkonforme Berichts- und Gutachten-Pipelines:
+1. **Drei-Phasen-Architektur**: Strikte Trennung von Extraktion (`prepare`), Inferenz (entkoppeltes LLM) und Validierung/Rendering (`finish`).
+2. **Datenschutz durch Design (DSGVO Art. 4(5))**: Umschaltbar zwischen Fail-Closed Anonymisierung (`mode="anonymized"`, Integriert mit `anonymizer` >=0.2.5) und unverschlüsseltem Modus (`mode="plain"`).
+3. **Deterministische Word-Vorlagenengine**: Präzises Auffüllen von `.docx`-Dateien (`{{PLATZHALTER}}`, dynamische Tabellenzeilen, Checkboxen) basierend auf JSON-Schema (Draft 2020-12 / Draft 7).
+4. **Automatisierte Batch-Verarbeitung**: Idempotenter `process-inbox`-Runner mit atomarer Veröffentlichung (`output_dir`) und Zeitstempel-Kollisionsschutz.
+
+---
+
+## 2. Ziel-Personas (Target Audience)
+
+### Persona 1: Enterprise Data Protection Officers (DPO / CISO)
+- **Problem**: Unternehmen und Behörden wollen LLMs zur Berichterstellung nutzen, dürfen aber keine personenbezogenen Daten (PII) wie Klientennamen, Geburtsdaten oder Adressen an externe LLM-APIs leiten.
+- **Lösung mit report-forge**: `mode="anonymized"` sorgt dafür, dass vor dem Prompt-Bau alle PII deterministisch pseudonymisiert und verschlüsselt werden. Das externe LLM sieht nur neutrale Tokens. Erst bei der lokalen Finalisierung (`finish`) werden die Daten auf vertrauenswürdigen Systemen wiederhergestellt.
+
+### Persona 2: Clinical, Diagnostic & Educational Reporting Engineers
+- **Problem**: Fachkräfte (z. B. Psychologen, Sonderpädagogen, Gutachter) verbringen Stunden mit dem manuellen Verfassen repetitiver Entwicklungs- und Förderberichte.
+- **Lösung mit report-forge**: Domänenspezifische Overlays (wie `foerderplaner`) nutzen `report-forge` als stabilen Unterbau. Quelldokumente (PDF, DOCX, XLSX) werden aggregiert, strukturierte Berichte per Schema validiert und druckfertige Vorlagen im CI-Design der Organisation befüllt.
+
+### Persona 3: Legal & Regulatory Audit Tech Developers
+- **Problem**: Automatisch generierte juristische oder Compliance-Berichte leiden häufig unter LLM-Halluzinationen oder unvollständigen Abschnitten.
+- **Lösung mit report-forge**: Strenge JSON-Schema-Validierung als hartes Gate vor der Vorlagenbefüllung. Bei Schema-Verletzungen bricht der Prozess ab (Fail-Closed), anstatt fehlerhafte Dokumente zu erzeugen.
+
+### Persona 4: Autonomous AI Agent Architects & Local-First Developers
+- **Problem**: Autonome Agentenframeworks (wie `coma` oder `rinnsal`) benötigen modulare, prozessfreie CLI-Werkzeuge zur Erstellung finaler Artefakte ohne Netzwerk-Egress.
+- **Lösung mit report-forge**: Vollständig zustandslos oder sitzungsbasiert steuerbar, 100% offline-fähig, keine versteckten Telemetrie- oder API-Aufrufe.
+
+---
+
+## 3. Discoverability Keywords & GitHub Topics
+
+Für die Auffindbarkeit auf GitHub, PyPI und Suchmaschinen empfohlene Schlagwörter:
+
+```text
+report-generation, docx-template, json-schema, anonymization, gdpr-compliant,
+privacy-by-design, local-first, llm-pipeline, document-automation, python-docx,
+template-engine, automated-reporting, zero-egress, batch-processing
+```
+
+---
+
+## 4. Verzeichnis- & Katalog-Empfehlungen
+
+| Verzeichnis / Plattform | Kategorie | Begründung & Status |
+|---|---|---|
+| **Awesome-Python** | Document Processing / Text Manipulation | Ideale Ergänzung zu `python-docx` und `docxtpl` durch integrierte Schema-Validierung und Anonymisierung. |
+| **Awesome-Privacy / Awesome-GDPR** | Developer Tools / Data Masking | Herausragendes Praxisbeispiel für Privacy-by-Design bei LLM-Pipelines. |
+| **Awesome-LLM / Awesome-AI-Agents** | Agent Tools & Document Generation | Entkoppelte 3-Phasen-Architektur für autonome Agenten. |
+| **LibHunt (Python)** | Topic: Office Documents & Reporting | Direkter Vergleichswert für Entwickler, die sichere Berichts-Generierung suchen. |
+| **PyPI (Python Package Index)** | Package: `report-forge` | PEP 621 Standard-Metadaten vollständig konfiguriert; paketierungs- und distributionsbereit. |
+
+---
+
+## 5. Integrations-Blueprints
+
+### Blueprint A: Automatisierter Batch Inbox Runner (Cron / Headless Service)
+```bash
+# Periodische Ausführung (z. B. via systemd timer oder Windows Task Scheduler)
+python -m report_forge process-inbox \
+  --work /var/lib/report_forge/sessions \
+  --mode plain \
+  --config /etc/report_forge/config.json
+```
+
+### Blueprint B: Python Pipeline Einbindung
+```python
+from pathlib import Path
+from report_forge.workflow import ReportWorkflow
+
+workflow = ReportWorkflow()
+
+# Phase 1: Intake & Prompt Generation
+prepared = workflow.prepare(
+    source_folder=Path("inputs/case_042"),
+    work_root=Path("sessions/"),
+    mode="plain",
+)
+
+# Phase 2: Inferenz über externes LLM (z. B. Ollama / Gemini / Claude)
+# [llm_generate(prompt=prepared.prompt_path.read_text()) -> "sessions/.../report.json"]
+
+# Phase 3: Validierung & Rendering
+result = workflow.finish(
+    session_dir=prepared.session_dir,
+    llm_json_path=prepared.session_dir / "data_bundled" / "report.json",
+    output_folder=Path("dist/reports/"),
+)
+print(f"Report successfully rendered to: {result.output_path}")
+```
+
+### Blueprint C: MCP Server Tool Definition
+Ermöglicht Claude Desktop, Antigravity oder Codex das direkte Auslösen von Berichten:
+```json
+{
+  "name": "generate_report",
+  "description": "Validates JSON data and renders a structured DOCX report",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "session_dir": { "type": "string" },
+      "llm_json_path": { "type": "string" },
+      "output_folder": { "type": "string" }
+    },
+    "required": ["session_dir", "llm_json_path"]
+  }
+}
+```
+
+---
+
+## 6. Ökosystem-Vernetzung & Geschwistermodule
+
+- [`anonymizer`](https://github.com/ellmos-ai/anonymizer): Fail-Closed PII-Maskierung und Fernet-Verschlüsselung (Optionale Dependency).
+- [`foerderplaner`](https://github.com/ellmos-ai/foerderplaner): Spezialisiertes Bildungs- und Förderdiagnostik-Overlay auf Basis von `report-forge`.
+- [`worksheet-generator`](https://github.com/ellmos-ai/worksheet-generator): Deklarative Erstellung von Unterrichts- und Arbeitsblättern.
+- [`coma`](https://github.com/ellmos-ai/coma): Headless Multi-Agenten-Harness für entkoppelte Hintergrundläufe.
+- [`usmc`](https://github.com/ellmos-ai/usmc): Zustandsmaschinen-Steuerung für reproduzierbare Pipeline-Übergänge.
+- [`open-bricks`](https://github.com/open-bricks): Dachorganisation für Open-Source Developer Tools.

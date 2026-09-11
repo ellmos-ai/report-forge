@@ -6,26 +6,31 @@
 
 - **Repository**: https://github.com/ellmos-ai/report-forge
 - **Organization**: ellmos-ai
-- **Version**: 1.1.5
+- **Umbrella**: open-bricks
+- **Version**: 1.1.6
 - **License**: MIT
-- **Last Checked**: 2026-09-10
+- **Last Checked**: 2026-09-11
 - **Language**: Python 3.10+
-- **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module, bilingual SECURITY.md with 48h SLA
+- **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module (>=0.2.5), bilingual SECURITY.md with 48h SLA
+- **Documentation**: README.md (English), README_de.md (German), SKILL.md (agent skill guide), MARKETING-LOG.txt (discoverability & blueprints)
 
 ## Overview
 
 `report-forge` provides the core pipeline architecture for 3-phase automated document generation:
-1. `prepare()`: Extract source documents (Word/PDF/Text/Excel/Mail), optionally anonymize personal data, build schema-bound LLM prompt in a session workspace.
-2. `LLM execution`: External LLM generates schema-compliant JSON from the session prompt.
-3. `finish()`: Validate JSON response, populate Word (`.docx`) template, optional de-anonymization, publish finalized report.
+1. `prepare()`: Extract source documents (Word/PDF/Text/Excel/Mail), optionally pseudonymize personal data, build schema-bound LLM prompt in a session workspace.
+2. `LLM execution`: External LLM generates schema-compliant JSON from the session prompt (decoupled boundary).
+3. `finish()`: Validate JSON response against JSON Schema, populate Word (`.docx`) template, optional de-anonymization, publish finalized report with collision protection.
 
-## Core Features
+## Core Features & Governance Invariants
 
-- **Domain-Neutral Core**: Separates pipeline orchestration engine from domain-specific overlays (schemas, prompts, templates).
-- **Dual Privacy Modes**: `mode="anonymized"` (default, fail-closed integration with `anonymizer` >=0.2.5) or `mode="plain"` (unencrypted/unredacted).
-- **Template Engine**: Robust `.docx` placeholder replacement (`{{KEY}}`, tabular placeholder mapping, checkbox toggling).
-- **Automated Inbox Batching**: Idempotent `process-inbox` CLI command for periodic background document processing.
-- **Publishing & Storage**: Local-first publishing to designated `output_dir` with duplicate timestamping collision protection.
+- **Domain-Neutral Core (`INV-FORGE-01`)**: Separates pipeline orchestration engine from domain-specific overlays (schemas, prompts, templates).
+- **Schema-Bound Validation (`INV-FORGE-02`)**: Strict validation against JSON Schema (Draft 2020-12 / Draft 7) prior to template rendering.
+- **Fail-Closed Privacy (`INV-FORGE-03`)**: Dual privacy modes: `mode="anonymized"` (fail-closed integration with `anonymizer` >=0.2.5, Fernet encryption) or `mode="plain"`.
+- **Word Template Engine (`INV-FORGE-04`)**: Robust `.docx` placeholder replacement (`{{KEY}}`, multi-run XML tokens, dynamic table rows, checkbox toggling).
+- **Collision-Safe Publishing (`INV-FORGE-05`)**: Local-first publishing to designated `output_dir` with millisecond timestamp collision protection.
+- **Automated Batch Inbox (`INV-FORGE-06`)**: Idempotent `process-inbox` CLI command with atomic work locks, archive sorting, and error quarantine.
+- **Secret Leakage Prevention (`INV-FORGE-07`)**: Headless non-interactive CI/daemon execution via `--*-env` environment variable resolution without stdout leaks.
+- **Zero Network Egress (`INV-FORGE-08`)**: 100% offline and local-first execution; no telemetry or unexpected remote network calls.
 
 ## Usage
 
@@ -36,21 +41,22 @@ python -m report_forge process-inbox --work sitzungen/ --mode plain --dry-run
 
 ### Python API
 ```python
+from pathlib import Path
 from report_forge.workflow import ReportWorkflow
 
 workflow = ReportWorkflow()
-prepared = workflow.prepare(source_folder="input_docs/", work_root="sessions/", mode="plain")
+prepared = workflow.prepare(source_folder=Path("input_docs/"), work_root=Path("sessions/"), mode="plain")
 # External LLM processes prepared.prompt_path -> output json to session_dir
 finished = workflow.finish(
     session_dir=prepared.session_dir,
     llm_json_path=prepared.session_dir / "data_bundled" / "report.json",
-    output_folder="output/final_report.docx"
+    output_folder=Path("output/final_report.docx")
 )
 ```
 
-## Testing
+## Testing & Verification
 ```bash
-PYTHONIOENCODING=utf-8 python -m pytest tests/ -q
+PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Current local verification (2026-09-10): 38/38 Pytest tests (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass. The optional anonymizer module is not installed in this environment, so no anonymized live run was claimed.
+Current local verification (2026-09-11): 43/43 Pytest tests (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass.

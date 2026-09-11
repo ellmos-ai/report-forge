@@ -2,6 +2,20 @@
 
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
+## [1.1.6] - 2026-09-11
+
+### Hinzugefügt
+- **Bilinguale Sequenzdiagramme & Schnellnavigation**: Interaktives bilinguales Mermaid-Sequenzdiagramm (`sequenceDiagram` mit `autonumber` und strikt gequoteten Kanten- und Knotentexten) in `README.md` und `README_de.md` implementiert; 12-teilige Schnellnavigation mit 1:1 Ankerparität ergänzt.
+- **Lokales Marketing- und Discoverability-Register**: `MARKETING-LOG.txt` im Repo-Root mit 4 Ziel-Personas (DPO/CISO, Diagnostik- und Förderberichts-Entwickler, Compliance-Audit-Ingenieure, Autonome KI-Agenten-Architekten), Discoverability-Keywords, Verzeichnis-Empfehlungen (Awesome-Listen, LibHunt, PyPI) und 3 Integrations-Blueprints angelegt.
+- **Governance- und Laufzeit-Invarianten**: 8 formale Systeminvarianten (`INV-FORGE-01` bis `INV-FORGE-08`) in beiden READMEs und `llms.txt` dokumentiert und vertraglich abgesichert.
+- **Geschwister-Repositories & Ökosystem-Matrix**: Tabellarische Vernetzung zu `anonymizer`, `foerderplaner`, `worksheet-generator`, `coma`, `usmc` und `open-bricks` in beiden READMEs verankert.
+- **Erweiterte Vertragstest-Suite**: 5 neue Contract-Tests in `tests/test_metadata.py` (erweiterte PEP 621 URLs, Marketing-Log-Validierung, Sequenzdiagramm-Syntax, Invarianten-Präsenz, bilinguale Ankerparität und Badges); Test-Suite auf 43 Tests erweitert (100% grün).
+
+### Geändert
+- **PEP 621 Standard-Metadaten**: `pyproject.toml` um `Security`, `Marketing Log`, `Parent Organization` (`ellmos-ai`) und `Umbrella Ecosystem` (`open-bricks`) URLs sowie zusätzliche Discoverability-Keywords (`template-engine`, `local-first`, `privacy-by-design`, `json-schema`) erweitert.
+- **Badge- & Dokumentations-Parität**: Shields.io Badges in `README.md` und `README_de.md` auf 43 passed Tests, Ruff Code-Style, llms.txt ready, Organisation ellmos-ai und Dach open-bricks synchronisiert.
+- **Version Bump**: Version in `pyproject.toml` und `report_forge/__init__.py` auf `1.1.6` angehoben.
+
 ## [1.1.5] - 2026-09-10
 
 ### Hinzugefügt

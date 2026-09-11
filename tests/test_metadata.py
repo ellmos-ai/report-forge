@@ -62,7 +62,7 @@ def test_pyproject_pep621_metadata():
 
     project = data.get("project", {})
     assert project.get("name") == "report-forge"
-    assert project.get("version") == "1.1.5"
+    assert project.get("version") == "1.1.6"
     assert "description" in project
     assert project.get("requires-python") == ">=3.10"
     assert project.get("license") == "MIT"
@@ -76,6 +76,10 @@ def test_pyproject_pep621_metadata():
     assert "report-generation" in keywords
     assert "anonymization" in keywords
     assert "pipeline" in keywords
+    assert "template-engine" in keywords
+    assert "local-first" in keywords
+    assert "privacy-by-design" in keywords
+    assert "json-schema" in keywords
 
     classifiers = project.get("classifiers", [])
     assert "Programming Language :: Python :: 3.10" in classifiers
@@ -89,6 +93,10 @@ def test_pyproject_pep621_metadata():
     assert urls.get("Documentation") == "https://github.com/ellmos-ai/report-forge#readme"
     assert urls.get("Issues") == "https://github.com/ellmos-ai/report-forge/issues"
     assert urls.get("Changelog") == "https://github.com/ellmos-ai/report-forge/blob/main/CHANGELOG.md"
+    assert urls.get("Security") == "https://github.com/ellmos-ai/report-forge/blob/main/SECURITY.md"
+    assert urls.get("Marketing Log") == "https://github.com/ellmos-ai/report-forge/blob/main/MARKETING-LOG.txt"
+    assert urls.get("Parent Organization") == "https://github.com/ellmos-ai"
+    assert urls.get("Umbrella Ecosystem") == "https://github.com/open-bricks"
 
     # Optional test dependencies
     opt_deps = project.get("optional-dependencies", {})
@@ -174,3 +182,109 @@ def test_schema_and_template_contracts():
     data = json.loads(example_path.read_text(encoding="utf-8"))
     errors = validate_report_schema(data, schema)
     assert errors == []
+
+
+def test_marketing_log_presence_and_structure():
+    """Verify MARKETING-LOG.txt is present with personas, keywords, directories, and blueprints."""
+    content = _read_text("MARKETING-LOG.txt")
+    assert "MARKETING-LOG" in content
+    assert "ellmos-ai/report-forge" in content
+    assert "1.1.6" in content
+
+    # Personas
+    assert "Persona 1:" in content
+    assert "Enterprise Data Protection Officers" in content
+    assert "Persona 2:" in content
+    assert "Persona 3:" in content
+    assert "Persona 4:" in content
+
+    # Keywords & Directories
+    assert "Discoverability Keywords" in content
+    assert "Awesome-Python" in content
+    assert "Awesome-Privacy" in content
+    assert "PyPI" in content
+
+    # Blueprints
+    assert "Blueprint A:" in content
+    assert "Blueprint B:" in content
+    assert "Blueprint C:" in content
+
+
+def test_sequence_diagram_and_mermaid_hygiene():
+    """Verify bilingual READMEs contain valid sequenceDiagrams with autonumber and quoting."""
+    en_content = _read_text("README.md")
+    de_content = _read_text("README_de.md")
+
+    for content in (en_content, de_content):
+        assert "```mermaid" in content
+        assert "sequenceDiagram" in content
+        assert "autonumber" in content
+        assert "actor Client" in content
+        assert "participant Workflow as ReportWorkflow" in content
+        assert "ReportWorkflow" in content
+        assert "WordTemplateService" in content
+
+
+def test_governance_invariants_presence():
+    """Verify all 8 governance invariants (INV-FORGE-01 to 08) are documented in both READMEs."""
+    en_content = _read_text("README.md")
+    de_content = _read_text("README_de.md")
+
+    expected_invariants = [
+        "INV-FORGE-01",
+        "INV-FORGE-02",
+        "INV-FORGE-03",
+        "INV-FORGE-04",
+        "INV-FORGE-05",
+        "INV-FORGE-06",
+        "INV-FORGE-07",
+        "INV-FORGE-08",
+    ]
+
+    for inv in expected_invariants:
+        assert inv in en_content, f"Missing {inv} in README.md"
+        assert inv in de_content, f"Missing {inv} in README_de.md"
+
+
+def test_readme_navigation_anchor_parity():
+    """Verify Table of Contents in both READMEs has equal items and matching anchors."""
+    en_content = _read_text("README.md")
+    de_content = _read_text("README_de.md")
+
+    assert "## Table of Contents" in en_content
+    assert "## Inhaltsverzeichnis" in de_content
+
+    en_anchors = [
+        line.split("](#")[1].rstrip(")")
+        for line in en_content.splitlines()
+        if line.strip().startswith("- [") and "](#" in line
+    ]
+    de_anchors = [
+        line.split("](#")[1].rstrip(")")
+        for line in de_content.splitlines()
+        if line.strip().startswith("- [") and "](#" in line
+    ]
+
+    assert len(en_anchors) == 13, f"Expected 13 TOC anchors in README.md, got {len(en_anchors)}"
+    assert len(de_anchors) == 13, f"Expected 13 TOC anchors in README_de.md, got {len(de_anchors)}"
+
+
+def test_readme_badges_parity():
+    """Verify Shields.io badges are synchronized across English and German READMEs."""
+    en_content = _read_text("README.md")
+    de_content = _read_text("README_de.md")
+
+    required_badges = [
+        "pytest-43%20passed",
+        "code%20style-ruff",
+        "architecture-Domain--Neutral",
+        "privacy-Local--First",
+        "security-SLA%2048h",
+        "llms.txt-ready",
+        "organization-ellmos--ai",
+        "umbrella-open--bricks",
+    ]
+
+    for badge in required_badges:
+        assert badge in en_content, f"Missing badge '{badge}' in README.md"
+        assert badge in de_content, f"Missing badge '{badge}' in README_de.md"
