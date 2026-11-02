@@ -273,7 +273,7 @@ La arquitectura de `report-forge` garantiza las siguientes 8 invariantes en tiem
 | Identificador | Nombre de la invariante | Especificación formal |
 |---|---|---|
 | `INV-FORGE-01` | **Separación arquitectónica en tres fases** | `prepare()`, la inferencia externa y `finish()` permanecen estrictamente separadas; la inferencia nunca ocurre dentro del proceso del módulo. |
-| `INV-FORGE-02` | **Puerta de salida vinculada al esquema** | El JSON de salida del LLM debe superar la validación estricta de JSON Schema (Draft 2020-12 / Draft 7) antes de generar la plantilla. |
+| `INV-FORGE-02` | **Puerta de salida vinculada al esquema** | El JSON de salida del LLM debe superar la validación estricta de JSON Schema (Draft 2020-12 / Draft 7) antes de renderizar el informe con la plantilla. |
 | `INV-FORGE-03` | **Límite de privacidad con denegación segura ante fallos** | `mode="anonymized"` requiere `anonymizer` ≥0.2.5; si faltan dependencias o claves, la ejecución se detiene de inmediato sin recurrir a texto claro. |
 | `INV-FORGE-04` | **Integridad del motor de plantillas** | Las sustituciones de marcadores repartidos entre varios elementos XML (`w:r`) y la expansión de tablas conservan el marcado OpenXML válido sin corromperlo. |
 | `INV-FORGE-05` | **Distribución sin colisiones** | Las copias al `output_dir` usan marcas de tiempo de milisegundos y contadores de colisión para evitar sobrescribir archivos. |
