@@ -2,6 +2,11 @@
 
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
+## [Unreleased]
+
+### Hinzugefügt
+- Spanische Dokumentation in `README_es.md`; Sprachwahl in der englischen und deutschen README sowie Dokumentationsübersicht in `llms.txt` ergänzt.
+
 ## [1.1.6] - 2026-09-11
 
 ### Hinzugefügt

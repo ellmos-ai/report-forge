@@ -2,7 +2,7 @@
 
 <img src="assets/banner.svg" width="100%" alt="ReportForge Banner">
 
-Language: [English](README.md) | [Deutsch](README_de.md)
+Language: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.md)
 
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
