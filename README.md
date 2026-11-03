@@ -66,51 +66,25 @@ The sequence diagram below visualizes the decoupled 3-phase execution lifecycle,
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Client as Caller / Batch Daemon
+    actor Client as Caller
     participant Workflow as ReportWorkflow
-    participant Extractor as DocumentExtractor
-    participant Anon as AnonymizerService
-    participant Schema as SchemaValidator
-    participant LLM as External LLM (Boundary)
-    participant Template as WordTemplateService
-    participant Publisher as DistributionPublisher
-
+    participant LLM as External LLM
+    participant Generator as ReportGenerator
+    participant Publisher as publish_copy
     Client->>Workflow: "prepare(source_folder, work_root, mode)"
-    Workflow->>Extractor: "extract_sources(source_folder)"
-    Extractor-->>Workflow: "Aggregated plain text & tables"
-
-    alt "mode == 'anonymized'"
-        Workflow->>Anon: "pseudonymize(raw_text, salt, password)"
-        Anon-->>Workflow: "Redacted prompt text & encrypted keymap"
-    else "mode == 'plain'"
-        Workflow->>Workflow: "Pass-through raw text (issue warning)"
-    end
-
-    Workflow->>Schema: "bind_prompt_schema(schema_name)"
-    Workflow->>Workflow: "Write prompt.txt & session state"
-    Workflow-->>Client: "PreparedSession(session_dir, prompt_path)"
-
-    Note over Client,LLM: "External LLM Inference (Out-of-Process / API Boundary)"
-    Client->>LLM: "Submit prompt.txt"
-    LLM-->>Client: "Structured JSON response (report.json)"
-
+    Note over Workflow: "Extract sources; anonymize when requested; write prompt and session"
+    Workflow-->>Client: "PrepareResult(success, errors, session_dir, prompt_path)"
+    Client->>LLM: "Submit prompt outside this module"
+    LLM-->>Client: "Save report.json"
     Client->>Workflow: "finish(session_dir, llm_json_path, output_folder)"
-    Workflow->>Schema: "validate_report_schema(data, schema)"
-
-    alt "Schema Validation Succeeded"
-        Workflow->>Template: "fill_report(data, template.docx)"
-        alt "mode == 'anonymized'"
-            Template->>Anon: "deanonymize(rendered_doc, password)"
-            Anon-->>Template: "Restored PII document"
-        end
-        Template->>Publisher: "publish_copy(output_path, collision_safe=True)"
-        Publisher-->>Template: "Unique finalized file path"
-        Template-->>Workflow: "RenderResult(output_path, status='success')"
-        Workflow-->>Client: "FinishedSession(output_path)"
-    else "Schema Validation Failed"
-        Schema-->>Workflow: "SchemaValidationError(errors)"
-        Workflow-->>Client: "Fail-Closed Abort (error logged, no docx generated)"
+    Note over Workflow: "Validate schema; return errors on invalid input"
+    Workflow->>Generator: "fill_report(report_data, template_path, output_path)"
+    Note over Workflow: "Restore identifiers locally in anonymized mode"
+    opt "output_dir requested and local output succeeded"
+        Workflow->>Publisher: "publish_copy(output_folder, output_dir)"
+        Publisher-->>Workflow: "Unique path, or exception recorded as warning"
     end
+    Workflow-->>Client: "FinishResult(success, errors, output_folder, published_path, warnings)"
 ```
 
 ---
@@ -123,8 +97,8 @@ sequenceDiagram
 | **Fail-Closed Privacy** | Pseudonymization & Fernet encryption (`mode="anonymized"`) via `anonymizer` module (≥0.2.5) | `INV-FORGE-03` |
 | **Schema Validation** | Strict JSON Schema validation (Draft 2020-12 / Draft 7) prior to document rendering | `INV-FORGE-02` |
 | **Word Template Engine** | Deterministic `.docx` replacement (`{{KEY}}`, multi-run tokens, dynamic tables, checkboxes) | `INV-FORGE-04` |
-| **Batch Inbox Runner** | Idempotent `process-inbox` automation with work locks and error quarantine | `INV-FORGE-06` |
-| **Publishing & Storage** | Collision-safe copying to designated `output_dir` with millisecond timestamp protection | `INV-FORGE-05` |
+| **Batch Inbox Runner** | One-shot `process-inbox`: `.processed` markers skip completed preparation; errors retry on the next invocation | `INV-FORGE-06` |
+| **Publishing & Storage** | Complete copies to `output_dir`, atomically created without replacing existing files; timestamps and counters resolve collisions | `INV-FORGE-05` |
 | **Non-Interactive CLI** | Headless CI/daemon execution via `--*-env` variable resolution with zero stdout secret leakage | `INV-FORGE-07` |
 | **Local-First & Offline** | Complete zero-egress architecture; zero unexpected remote network calls or telemetry | `INV-FORGE-08` |
 
@@ -157,6 +131,8 @@ prepared = workflow.prepare(
     work_root=Path("sessions/"),
     mode="plain",
 )
+if not prepared.success:
+    raise RuntimeError(prepared.errors)
 print(f"Session workspace initialized: {prepared.session_dir}")
 print(f"Prompt prepared at: {prepared.prompt_path}")
 
@@ -169,7 +145,9 @@ finished = workflow.finish(
     llm_json_path=prepared.session_dir / "data_bundled" / "report.json",
     output_folder=Path("output/final_report.docx"),
 )
-print(f"Report successfully rendered: {finished.output_path}")
+if not finished.success:
+    raise RuntimeError(finished.errors)
+print(f"Report successfully rendered: {finished.output_folder}")
 ```
 
 ### 2. Anonymized Mode (`mode="anonymized"`, Default)
@@ -186,6 +164,9 @@ prepared = workflow.prepare(
     password="secure-user-passphrase",
 )
 
+if not prepared.success:
+    raise RuntimeError(prepared.errors)
+
 # During finish(), provide the password to restore real identifiers in the final DOCX:
 finished = workflow.finish(
     session_dir=prepared.session_dir,
@@ -193,6 +174,8 @@ finished = workflow.finish(
     output_folder=Path("output/final_report.docx"),
     password="secure-user-passphrase",
 )
+if not finished.success:
+    raise RuntimeError(finished.errors)
 ```
 
 ---
@@ -231,16 +214,16 @@ python -m report_forge process-inbox --work sessions/ --mode plain --dry-run
 
 ```bash
 # Prepare a session prompt from source files
-python -m report_forge prepare source_docs/ --work sessions/ --mode plain
+python -m report_forge prepare --source source_docs/ --work sessions/ --mode plain
 
 # Validate and render from a completed LLM JSON
-python -m report_forge finish sessions/20260911_010000 --json sessions/20260911_010000/data_bundled/report.json --output dist/
+python -m report_forge finish --session sessions/20260911_010000 --json sessions/20260911_010000/data_bundled/report.json --output dist/report.docx
 
 # Run the automated inbox processor
 python -m report_forge process-inbox --work sessions/ --mode plain
 
 # Inspect available schemas and templates
-python -m report_forge info
+python -m report_forge --info
 ```
 
 ### Non-Interactive & Headless CI Mode
@@ -265,8 +248,8 @@ The `report-forge` architecture guarantees the following 8 runtime invariants:
 | `INV-FORGE-02` | **Schema-Bound Output Gate** | LLM JSON output must pass strict JSON Schema validation (Draft 2020-12 / Draft 7) prior to template rendering. |
 | `INV-FORGE-03` | **Fail-Closed Privacy Boundary** | `mode="anonymized"` requires `anonymizer` ≥0.2.5; missing dependencies or keys halt execution immediately without cleartext fallback. |
 | `INV-FORGE-04` | **Template Engine Integrity** | Multi-run XML placeholder substitutions and table expansions preserve valid OpenXML markup without corruption. |
-| `INV-FORGE-05` | **Collision-Safe Distribution** | Output copies to `output_dir` use millisecond timestamps and collision counters to prevent overwriting existing files. |
-| `INV-FORGE-06` | **Idempotent Batch State** | `process-inbox` isolates items with atomic locks, sorting completed items into archive and malformed items into quarantine. |
+| `INV-FORGE-05` | **Collision-Safe Distribution** | Output copies to `output_dir` use atomic no-replace hardlinks, timestamps and collision counters. Unsupported filesystems fail explicitly; finish retains its local output and reports a publish warning. |
+| `INV-FORGE-06` | **Idempotent Batch State** | `process-inbox` runs once, marks successful preparation with `.processed`, skips marked folders and retries failures on later calls. It provides no archive, quarantine, watcher or cross-process item lock. |
 | `INV-FORGE-07` | **Secret Leakage Prevention** | Secrets are resolved exclusively via secure TTY prompts or environment variable names, never logged or displayed. |
 | `INV-FORGE-08` | **Zero Unexpected Network Egress** | All document extraction, prompt generation, schema validation, and rendering execute 100% local-first. |
 

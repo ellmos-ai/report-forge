@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — 2026-11-03
+
+- Prevent repeated and concurrent publication from overwriting existing reports. Stage a complete private copy, then atomically link it under a free name; fail explicitly on unsupported filesystems.
+- Correct English, German and Spanish CLI/Python examples and publication/inbox behavior descriptions.
+- Add synthetic repeated-publication, concurrent-writer and failed-copy regression coverage. Version remains unchanged.
+
+
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
 ## [Unreleased]
