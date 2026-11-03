@@ -1,6 +1,18 @@
 # Changelog
 
+## Unreleased — 2026-11-03
+
+- Prevent repeated and concurrent publication from overwriting existing reports. Stage a complete private copy, then publish under a free name using Windows no-replace rename or a hardlink on other systems; fail explicitly on unsupported operations. Windows publication does not require hardlinks.
+- Correct English, German and Spanish CLI/Python examples and publication/inbox behavior descriptions.
+- Add synthetic repeated-publication, concurrent-writer and failed-copy regression coverage. Version remains unchanged.
+
+
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
+
+## [Unreleased]
+
+### Hinzugefügt
+- Spanische Dokumentation in `README_es.md`; Sprachwahl in der englischen und deutschen README sowie Dokumentationsübersicht in `llms.txt` ergänzt.
 
 ## [1.1.6] - 2026-09-11
 

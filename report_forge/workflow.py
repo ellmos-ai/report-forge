@@ -118,8 +118,11 @@ def publish_copy(source: str | Path, output_dir: str | Path) -> Path:
     dort direkt die Zieldatei) oder ein Ordner, der `report.docx`
     enthält (mode="anonymized": `output_folder` ist der de-anonymisierte
     Zielordner). Kollisionsschutz: existiert im Zielordner bereits eine
-    Datei gleichen Namens, wird ein Suffix `_JJJJMMTT-HHMM` angehängt;
-    `output_dir` wird bei Bedarf angelegt.
+    Datei gleichen Namens, wird ein Zeitstempel und bei weiteren Kollisionen
+    ein Zähler angehängt. Die vollständige Kopie wird atomar ohne Überschreiben
+    angelegt; `output_dir` wird bei Bedarf angelegt. Windows nutzt Rename ohne
+    Ersetzen, andere Systeme benötigen Hardlinks auf dem Ziel-Dateisystem.
+    Nicht unterstützte Operationen schlagen explizit fehl.
 
     Sicherheitshinweis: Dieser Schritt rührt NICHT an der De-Anonymisierung
     selbst (die bleibt unverändert fail-closed lokal) -- er ist eine
@@ -136,13 +139,30 @@ def publish_copy(source: str | Path, output_dir: str | Path) -> Path:
     dest_dir = Path(output_dir).expanduser()
     dest_dir.mkdir(parents=True, exist_ok=True)
 
-    target = dest_dir / src_file.name
-    if target.exists():
-        stamp = datetime.now().strftime("%Y%m%d-%H%M")
-        target = dest_dir / f"{target.stem}_{stamp}{target.suffix}"
-
-    shutil.copy2(src_file, target)
-    return target
+    descriptor, temporary_name = tempfile.mkstemp(prefix=".publish-", dir=dest_dir)
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "wb") as output, src_file.open("rb") as source_handle:
+            shutil.copyfileobj(source_handle, output)
+            output.flush()
+            os.fsync(output.fileno())
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+        index = 0
+        while True:
+            suffix = "" if index == 0 else f"_{stamp}" + (f"_{index}" if index > 1 else "")
+            target = dest_dir / f"{src_file.stem}{suffix}{src_file.suffix}"
+            try:
+                if os.name == "nt":
+                    # Unlike POSIX rename, Windows rename never replaces a target.
+                    os.rename(temporary, target)
+                else:
+                    os.link(temporary, target)
+            except FileExistsError:
+                index += 1
+            else:
+                return target
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _is_within(path: Path, root: Path) -> bool:

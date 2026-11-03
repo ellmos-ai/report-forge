@@ -3,6 +3,7 @@
 
 import json
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import pytest
@@ -106,6 +107,96 @@ def test_publish_copy_collision_gets_timestamp_suffix(tmp_path):
 def test_publish_copy_missing_source_raises(tmp_path):
     with pytest.raises(FileNotFoundError):
         publish_copy(tmp_path / "does-not-exist", tmp_path / "out")
+
+
+def test_publish_copy_repeated_collisions_preserve_every_payload(tmp_path, monkeypatch):
+    from datetime import datetime
+    import report_forge.workflow as module
+
+    class FrozenDateTime(datetime):
+        @classmethod
+        def now(cls):
+            return cls(2026, 11, 3, 0, 0, 0)
+
+    monkeypatch.setattr(module, "datetime", FrozenDateTime)
+    src = tmp_path / "bericht.docx"
+    published = []
+    for payload in (b"first", b"second", b"third", b"fourth"):
+        src.write_bytes(payload)
+        published.append(publish_copy(src, tmp_path / "out"))
+    assert len(set(published)) == 4
+    assert [path.read_bytes() for path in published] == [
+        b"first", b"second", b"third", b"fourth"
+    ]
+
+
+def test_publish_copy_concurrent_writers_preserve_complete_copies(tmp_path):
+    src = tmp_path / "bericht.docx"
+    payload = b"synthetic complete report" * 8192
+    src.write_bytes(payload)
+    output = tmp_path / "out"
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        paths = list(pool.map(lambda _: publish_copy(src, output), range(16)))
+    assert len(set(paths)) == 16
+    assert all(path.read_bytes() == payload for path in paths)
+    assert not list(output.glob(".publish-*"))
+
+
+def test_publish_copy_failed_read_leaves_existing_output_untouched(tmp_path, monkeypatch):
+    import report_forge.workflow as module
+
+    src = tmp_path / "bericht.docx"
+    src.write_bytes(b"new")
+    output = tmp_path / "out"
+    output.mkdir()
+    existing = output / "bericht.docx"
+    existing.write_bytes(b"original")
+
+    def fail_copy(*args, **kwargs):
+        raise OSError("synthetic copy failure")
+
+    monkeypatch.setattr(module.shutil, "copyfileobj", fail_copy)
+    with pytest.raises(OSError, match="synthetic copy failure"):
+        publish_copy(src, output)
+    assert list(output.iterdir()) == [existing]
+    assert existing.read_bytes() == b"original"
+
+
+def test_publish_copy_unsupported_publication_fails_without_output(tmp_path, monkeypatch):
+    import report_forge.workflow as module
+
+    src = tmp_path / "bericht.docx"
+    src.write_bytes(b"synthetic")
+
+    def fail_link(*args):
+        raise OSError("synthetic unsupported filesystem")
+
+    monkeypatch.setattr(module.os, "link", fail_link)
+    monkeypatch.setattr(module.os, "rename", fail_link)
+    with pytest.raises(OSError, match="unsupported filesystem"):
+        publish_copy(src, tmp_path / "out")
+    assert list((tmp_path / "out").iterdir()) == []
+    assert src.read_bytes() == b"synthetic"
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows native no-replace rename")
+def test_windows_publish_does_not_require_hardlinks(tmp_path, monkeypatch):
+    import report_forge.workflow as module
+
+    def fail_link(*args):
+        raise OSError("synthetic filesystem without hardlinks")
+
+    monkeypatch.setattr(module.os, "link", fail_link)
+    src = tmp_path / "bericht.docx"
+    output = tmp_path / "out"
+    src.write_bytes(b"first")
+    first = publish_copy(src, output)
+    src.write_bytes(b"second")
+    second = publish_copy(src, output)
+    assert first != second
+    assert first.read_bytes() == b"first"
+    assert second.read_bytes() == b"second"
+    assert not list(output.glob(".publish-*"))
 
 
 def test_finish_plain_mode_with_output_dir_publishes(tmp_path):

@@ -12,7 +12,7 @@
 - **Last Checked**: 2026-09-11
 - **Language**: Python 3.10+
 - **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module (>=0.2.5), bilingual SECURITY.md with 48h SLA
-- **Documentation**: README.md (English), README_de.md (German), SKILL.md (agent skill guide), MARKETING-LOG.txt (discoverability & blueprints)
+- **Documentation**: README.md (English), README_de.md (German), README_es.md (Spanish), SKILL.md (agent skill guide), MARKETING-LOG.txt (discoverability & blueprints)
 
 ## Overview
 
