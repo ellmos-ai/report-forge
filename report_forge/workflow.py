@@ -120,8 +120,9 @@ def publish_copy(source: str | Path, output_dir: str | Path) -> Path:
     Zielordner). Kollisionsschutz: existiert im Zielordner bereits eine
     Datei gleichen Namens, wird ein Zeitstempel und bei weiteren Kollisionen
     ein Zähler angehängt. Die vollständige Kopie wird atomar ohne Überschreiben
-    angelegt; `output_dir` wird bei Bedarf angelegt. Das Ziel-Dateisystem muss
-    Hardlinks unterstützen, andernfalls schlägt der Schritt explizit fehl.
+    angelegt; `output_dir` wird bei Bedarf angelegt. Windows nutzt Rename ohne
+    Ersetzen, andere Systeme benötigen Hardlinks auf dem Ziel-Dateisystem.
+    Nicht unterstützte Operationen schlagen explizit fehl.
 
     Sicherheitshinweis: Dieser Schritt rührt NICHT an der De-Anonymisierung
     selbst (die bleibt unverändert fail-closed lokal) -- er ist eine
@@ -151,7 +152,11 @@ def publish_copy(source: str | Path, output_dir: str | Path) -> Path:
             suffix = "" if index == 0 else f"_{stamp}" + (f"_{index}" if index > 1 else "")
             target = dest_dir / f"{src_file.stem}{suffix}{src_file.suffix}"
             try:
-                os.link(temporary, target)
+                if os.name == "nt":
+                    # Unlike POSIX rename, Windows rename never replaces a target.
+                    os.rename(temporary, target)
+                else:
+                    os.link(temporary, target)
             except FileExistsError:
                 index += 1
             else:

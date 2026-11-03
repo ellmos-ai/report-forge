@@ -162,7 +162,7 @@ def test_publish_copy_failed_read_leaves_existing_output_untouched(tmp_path, mon
     assert existing.read_bytes() == b"original"
 
 
-def test_publish_copy_unsupported_hardlinks_fail_without_output(tmp_path, monkeypatch):
+def test_publish_copy_unsupported_publication_fails_without_output(tmp_path, monkeypatch):
     import report_forge.workflow as module
 
     src = tmp_path / "bericht.docx"
@@ -172,10 +172,31 @@ def test_publish_copy_unsupported_hardlinks_fail_without_output(tmp_path, monkey
         raise OSError("synthetic unsupported filesystem")
 
     monkeypatch.setattr(module.os, "link", fail_link)
+    monkeypatch.setattr(module.os, "rename", fail_link)
     with pytest.raises(OSError, match="unsupported filesystem"):
         publish_copy(src, tmp_path / "out")
     assert list((tmp_path / "out").iterdir()) == []
     assert src.read_bytes() == b"synthetic"
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows native no-replace rename")
+def test_windows_publish_does_not_require_hardlinks(tmp_path, monkeypatch):
+    import report_forge.workflow as module
+
+    def fail_link(*args):
+        raise OSError("synthetic filesystem without hardlinks")
+
+    monkeypatch.setattr(module.os, "link", fail_link)
+    src = tmp_path / "bericht.docx"
+    output = tmp_path / "out"
+    src.write_bytes(b"first")
+    first = publish_copy(src, output)
+    src.write_bytes(b"second")
+    second = publish_copy(src, output)
+    assert first != second
+    assert first.read_bytes() == b"first"
+    assert second.read_bytes() == b"second"
+    assert not list(output.glob(".publish-*"))
 
 
 def test_finish_plain_mode_with_output_dir_publishes(tmp_path):
