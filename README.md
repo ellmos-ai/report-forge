@@ -7,7 +7,7 @@ Language: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-43%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-58%20passed-brightgreen.svg)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff-000000.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
@@ -278,7 +278,7 @@ Run the comprehensive pytest suite:
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-All 43 tests verify:
+All 58 tests verify:
 - Functional 3-phase workflows (plain & anonymized prepare/finish)
 - DOCX template placeholder substitution & dynamic table generation
 - JSON schema validation gates & error formatting

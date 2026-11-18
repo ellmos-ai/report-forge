@@ -9,10 +9,10 @@
 - **Umbrella**: open-bricks
 - **Version**: 1.1.6
 - **License**: MIT
-- **Last Checked**: 2026-09-11
+- **Last Checked**: 2026-11-18
 - **Language**: Python 3.10+
 - **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module (>=0.2.5), bilingual SECURITY.md with 48h SLA
-- **Documentation**: README.md (English), README_de.md (German), README_es.md (Spanish), SKILL.md (agent skill guide), MARKETING-LOG.txt (discoverability & blueprints)
+- **Documentation**: README.md (English), README_de.md (German), README_es.md (Spanish), SKILL.md (agent skill guide), llm.txt (compatibility pointer), CONTRIBUTING.md, CODE_OF_CONDUCT.md, MARKETING-LOG.txt (discoverability & blueprints)
 
 ## Overview
 
@@ -59,4 +59,4 @@ finished = workflow.finish(
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Current local verification (2026-09-11): 43/43 Pytest tests (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass.
+Current local verification (2026-11-18): 58/58 Pytest tests (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass.

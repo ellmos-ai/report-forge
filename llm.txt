@@ -1,0 +1,3 @@
+# llm.txt — Compatibility Pointer
+
+See [llms.txt](llms.txt) for the canonical LLM context and integration guide for `report-forge`, and [SKILL.md](SKILL.md) for the agent skill specification.

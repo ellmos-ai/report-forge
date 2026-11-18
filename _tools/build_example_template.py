@@ -28,6 +28,6 @@ doc.add_heading("Empfehlung", level=2)
 doc.add_paragraph("Fortsetzung empfohlen: {{RECOMMENDATION_CONTINUE}}")
 doc.add_paragraph("Anmerkung: {{RECOMMENDATION_NOTES}}")
 
-out = Path(r"C:\Users\User\OneDrive\.TOPICS\.AI\.MODULES\.DOMAINS\report-forge\templates\example_template.docx")
+out = Path(__file__).resolve().parent.parent / "templates" / "example_template.docx"
 doc.save(str(out))
 print("saved:", out, out.stat().st_size, "bytes")
