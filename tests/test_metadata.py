@@ -7,6 +7,7 @@ bilingual documentation parity, security policy, and schema/template contracts.
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -85,6 +86,8 @@ def test_pyproject_pep621_metadata():
     assert "Programming Language :: Python :: 3.10" in classifiers
     assert "Programming Language :: Python :: 3.11" in classifiers
     assert "Programming Language :: Python :: 3.12" in classifiers
+    assert "Programming Language :: Python :: 3.13" in classifiers
+    assert not any(c.startswith("License :: OSI Approved") for c in classifiers)
 
     # URLs
     urls = project.get("urls", {})
@@ -93,6 +96,8 @@ def test_pyproject_pep621_metadata():
     assert urls.get("Documentation") == "https://github.com/ellmos-ai/report-forge#readme"
     assert urls.get("Issues") == "https://github.com/ellmos-ai/report-forge/issues"
     assert urls.get("Changelog") == "https://github.com/ellmos-ai/report-forge/blob/main/CHANGELOG.md"
+    assert urls.get("Contributing") == "https://github.com/ellmos-ai/report-forge/blob/main/CONTRIBUTING.md"
+    assert urls.get("Code of Conduct") == "https://github.com/ellmos-ai/report-forge/blob/main/CODE_OF_CONDUCT.md"
     assert urls.get("Security") == "https://github.com/ellmos-ai/report-forge/blob/main/SECURITY.md"
     assert urls.get("Marketing Log") == "https://github.com/ellmos-ai/report-forge/blob/main/MARKETING-LOG.txt"
     assert urls.get("Parent Organization") == "https://github.com/ellmos-ai"
@@ -121,13 +126,15 @@ def test_version_parity():
 
 
 def test_ci_matrix_workflow_definition():
-    """Verify GitHub Actions CI matrix tests Python 3.10, 3.11, and 3.12."""
+    """Verify GitHub Actions CI matrix tests Python 3.10, 3.11, 3.12, and 3.13."""
     content = _read_text(".github/workflows/tests.yml")
     assert "name: Tests" in content
+    assert "workflow_dispatch:" in content
     assert "matrix:" in content
     assert '"3.10"' in content
     assert '"3.11"' in content
     assert '"3.12"' in content
+    assert '"3.13"' in content
     assert "cancel-in-progress: true" in content
     assert "compileall" in content
     assert "ruff check ." in content
@@ -270,12 +277,13 @@ def test_readme_navigation_anchor_parity():
 
 
 def test_readme_badges_parity():
-    """Verify Shields.io badges are synchronized across English and German READMEs."""
+    """Verify Shields.io badges are synchronized across English, German, and Spanish READMEs."""
     en_content = _read_text("README.md")
     de_content = _read_text("README_de.md")
+    es_content = _read_text("README_es.md")
 
     required_badges = [
-        "pytest-43%20passed",
+        "pytest-58%20passed",
         "code%20style-ruff",
         "architecture-Domain--Neutral",
         "privacy-Local--First",
@@ -288,3 +296,80 @@ def test_readme_badges_parity():
     for badge in required_badges:
         assert badge in en_content, f"Missing badge '{badge}' in README.md"
         assert badge in de_content, f"Missing badge '{badge}' in README_de.md"
+        assert badge in es_content, f"Missing badge '{badge}' in README_es.md"
+
+
+def test_pytest_addopts_no_relative_basetemp():
+    """Verify pyproject.toml pytest options avoid relative --basetemp and ignore temp dirs."""
+    if sys.version_info >= (3, 11):
+        import tomllib
+    else:
+        import tomli as tomllib
+
+    with open(REPO_ROOT / "pyproject.toml", "rb") as f:
+        data = tomllib.load(f)
+
+    pytest_opts = data.get("tool", {}).get("pytest", {}).get("ini_options", {})
+    addopts = pytest_opts.get("addopts", "")
+    assert "--basetemp" not in addopts
+    assert pytest_opts.get("xfail_strict") is True
+    norecursedirs = pytest_opts.get("norecursedirs", [])
+    for expected in (".*", "build", "dist", "node_modules", "venv", ".pytest_temp"):
+        assert expected in norecursedirs, f"Missing norecursedirs entry: {expected}"
+
+    gitignore_lines = {
+        line.strip()
+        for line in _read_text(".gitignore").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
+    assert ".pytest_temp/" in gitignore_lines
+
+
+def test_community_health_and_llm_pointer_files():
+    """Verify bilingual governance docs, issue templates, dependabot, and llm.txt exist."""
+    coc = _read_text("CODE_OF_CONDUCT.md")
+    assert "Contributor Covenant" in coc
+    assert "Verhaltenskodex" in coc
+    assert "security@ellmos.ai" in coc
+
+    contrib = _read_text("CONTRIBUTING.md")
+    assert "Development Setup" in contrib
+    assert "Entwicklungsumgebung" in contrib
+
+    llm_pointer = _read_text("llm.txt")
+    assert "llms.txt" in llm_pointer
+
+    dependabot = _read_text(".github/dependabot.yml")
+    assert 'package-ecosystem: "pip"' in dependabot
+    assert 'package-ecosystem: "github-actions"' in dependabot
+
+    assert (REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "config.yml").is_file()
+    assert (REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md").is_file()
+    assert (REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md").is_file()
+
+
+def test_internal_agent_files_not_tracked_and_portable_tools():
+    """Verify internal agent logs are untracked and tool scripts contain no user home paths."""
+    tool_script = _read_text("_tools/build_example_template.py")
+    assert "C:\\Users\\" not in tool_script
+    assert "C:/Users/" not in tool_script
+
+    if (REPO_ROOT / ".git").exists():
+        result = subprocess.run(
+            ["git", "ls-files", "BEFUNDE.md", "TODO.md"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        assert result.stdout.strip() == "", f"Internal files must not be tracked: {result.stdout}"
+
+
+def test_llms_txt_recency_and_test_count():
+    """Verify llms.txt reflects current verified test count and governance docs."""
+    llms = _read_text("llms.txt")
+    assert "Last Checked**: 2026-11-18" in llms
+    assert "58/58 Pytest tests" in llms
+    assert "llm.txt" in llms
+    assert "CONTRIBUTING.md" in llms
+    assert "CODE_OF_CONDUCT.md" in llms

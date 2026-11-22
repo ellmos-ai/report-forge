@@ -1,17 +1,19 @@
 # Changelog
 
-## Unreleased — 2026-11-03
-
-- Prevent repeated and concurrent publication from overwriting existing reports. Stage a complete private copy, then publish under a free name using Windows no-replace rename or a hardlink on other systems; fail explicitly on unsupported operations. Windows publication does not require hardlinks.
-- Correct English, German and Spanish CLI/Python examples and publication/inbox behavior descriptions.
-- Add synthetic repeated-publication, concurrent-writer and failed-copy regression coverage. Version remains unchanged.
-
-
 Alle relevanten Änderungen an `report-forge` werden in dieser Datei dokumentiert.
 
 ## [Unreleased]
 
-### Hinzugefügt
+### Hinzugefügt (2026-11-18 — Pfad-A Hygiene & CI-Härtung)
+- **CI-Matrix & Dependabot**: Python `3.13` und `workflow_dispatch` in `.github/workflows/tests.yml` sowie `.github/dependabot.yml` (pip & github-actions) ergänzt.
+- **Community- & LLM-Governance**: Zweisprachige `CODE_OF_CONDUCT.md` und `CONTRIBUTING.md`, `llm.txt`-Kompatibilitätszeiger sowie `.github/ISSUE_TEMPLATE/` (`bug_report.md`, `feature_request.md`, `config.yml`) hinzugefügt.
+- **PEP 621 & Pytest-Härtung**: Classifier `Python :: 3.13`, URLs `Contributing` & `Code of Conduct`, `strict-markers`, `xfail_strict = true` und `norecursedirs` in `pyproject.toml` ergänzt (ohne relatives `--basetemp` in `addopts`); `.gitignore` um Agenten-Arbeitsverzeichnisse, Rollen-Locks, `.pytest_temp/` und `TODO.md` gehärtet.
+- **Privacy-Gate & Vertragstests**: Interne Arbeitsdateien `BEFUNDE.md` und `TODO.md` aus dem Git-Tracking entfernt, `_tools/build_example_template.py` pfadportabel gemacht, `README*.md`-/`llms.txt`-Testzähler auf `58` aktualisiert und 4 neue Vertragstests in `tests/test_metadata.py` ergänzt (Version `1.1.6` unverändert).
+
+### Hinzugefügt / Geändert (2026-11-03)
+- Prevent repeated and concurrent publication from overwriting existing reports. Stage a complete private copy, then publish under a free name using Windows no-replace rename or a hardlink on other systems; fail explicitly on unsupported operations. Windows publication does not require hardlinks.
+- Correct English, German and Spanish CLI/Python examples and publication/inbox behavior descriptions.
+- Add synthetic repeated-publication, concurrent-writer and failed-copy regression coverage. Version remains unchanged.
 - Spanische Dokumentation in `README_es.md`; Sprachwahl in der englischen und deutschen README sowie Dokumentationsübersicht in `llms.txt` ergänzt.
 
 ## [1.1.6] - 2026-09-11

@@ -12,14 +12,28 @@ config.local.json
 LOCK
 LOCK.*
 LOCK*.txt
+LOCK-CACHE.*
+LOCK.permissions.*
+LOCK.orchestrator.*
+LOCK.operator.*
+LOCK.worker.*
+LOCK.thinker.*
+LOCK.reviewer.*
 *.lock
+
+# Agenten-Arbeitsverzeichnisse
+.claude/
+.codex/
+.gemini/
+.agent/
 
 # Generierte Berichte (nur synthetische Beispiele in examples/ sind Teil des Repos)
 output/
-/BEFUND.md
+/BEFUNDE.md
 
 # Interne Arbeitsdokumente
 _intern/
+TODO.md
 
 # Python, Caches & Packaging
 __pycache__/
@@ -27,9 +41,13 @@ __pycache__/
 *.pyo
 *.pyd
 .pytest_cache/
+.pytest_temp/
 .ruff_cache/
 .coverage
+.coverage.*
 htmlcov/
+.tox/
+.nox/
 build/
 dist/
 *.egg-info/

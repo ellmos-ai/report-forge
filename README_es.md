@@ -9,7 +9,7 @@ Idioma: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.md
 ![Integración continua (CI)](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![Licencia](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-43%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-58%20passed-brightgreen.svg)
 ![Estilo del código](https://img.shields.io/badge/code%20style-ruff-000000.svg)
 ![Arquitectura](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacidad](https://img.shields.io/badge/privacy-Local--First-orange.svg)
@@ -291,7 +291,7 @@ Ejecuta la suite completa de pytest:
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Las 43 pruebas verifican:
+Las 58 pruebas verifican:
 - Los flujos funcionales de tres fases (prepare/finish con modos plain y anonimizado)
 - La sustitución de marcadores en plantillas DOCX y la generación dinámica de tablas
 - Las puertas de validación de JSON Schema y el formato de errores

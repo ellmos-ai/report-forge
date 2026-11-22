@@ -18,6 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing :: Markup",
@@ -56,6 +57,8 @@ Repository = "https://github.com/ellmos-ai/report-forge"
 Documentation = "https://github.com/ellmos-ai/report-forge#readme"
 Issues = "https://github.com/ellmos-ai/report-forge/issues"
 Changelog = "https://github.com/ellmos-ai/report-forge/blob/main/CHANGELOG.md"
+Contributing = "https://github.com/ellmos-ai/report-forge/blob/main/CONTRIBUTING.md"
+"Code of Conduct" = "https://github.com/ellmos-ai/report-forge/blob/main/CODE_OF_CONDUCT.md"
 Security = "https://github.com/ellmos-ai/report-forge/blob/main/SECURITY.md"
 "Marketing Log" = "https://github.com/ellmos-ai/report-forge/blob/main/MARKETING-LOG.txt"
 "Parent Organization" = "https://github.com/ellmos-ai"
@@ -69,9 +72,11 @@ report_forge = ["data/*.json", "data/*.docx"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -q"
+addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
 pythonpath = ["."]
+norecursedirs = ["*.egg", ".*", "_darcs", "build", "CVS", "dist", "node_modules", "venv", "{arch}", ".pytest_temp", ".git", "*.egg-info"]
+xfail_strict = true
 
 [tool.ruff]
 line-length = 100
