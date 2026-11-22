@@ -75,7 +75,7 @@ minversion = "7.0"
 addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
 pythonpath = ["."]
-norecursedirs = [".pytest_temp", ".git", "dist", "build", "*.egg-info"]
+norecursedirs = ["*.egg", ".*", "_darcs", "build", "CVS", "dist", "node_modules", "venv", "{arch}", ".pytest_temp", ".git", "*.egg-info"]
 xfail_strict = true
 
 [tool.ruff]

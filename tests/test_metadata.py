@@ -313,7 +313,9 @@ def test_pytest_addopts_no_relative_basetemp():
     addopts = pytest_opts.get("addopts", "")
     assert "--basetemp" not in addopts
     assert pytest_opts.get("xfail_strict") is True
-    assert ".pytest_temp" in pytest_opts.get("norecursedirs", [])
+    norecursedirs = pytest_opts.get("norecursedirs", [])
+    for expected in (".*", "build", "dist", "node_modules", "venv", ".pytest_temp"):
+        assert expected in norecursedirs, f"Missing norecursedirs entry: {expected}"
 
     gitignore_lines = {
         line.strip()
