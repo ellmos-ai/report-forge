@@ -291,7 +291,7 @@ Alle 43 Tests prüfen:
 
 `report-forge` erzwingt strikte Local-First-Verarbeitung, null unerwarteten Netzwerkabfluss und Fail-Closed-Pseudonymisierung. Richtlinien zur Schwachstellenmeldung und Reaktionsfristen finden sich in [SECURITY.md](SECURITY.md).
 
-- **SLA**: Erstreaktion innerhalb von 48 Stunden; Triage und Statusupdate innerhalb von 5 Werktagen.
+- **Reaktionsziele (nach bestem Bemühen)**: Erstreaktion innerhalb von 48 Stunden; Triage und Statusupdate innerhalb von 5 Werktagen.
 - **Kontakt**: [Private Schwachstellenmeldung bei GitHub](https://github.com/ellmos-ai/report-forge/security/advisories/new) (kein überwachtes Postfach)
 
 ---

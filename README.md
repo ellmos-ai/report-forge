@@ -291,7 +291,7 @@ All 43 tests verify:
 
 `report-forge` enforces strict local-first processing, zero unexpected network egress, and fail-closed pseudonymization. For vulnerability disclosures and security policies, see [SECURITY.md](SECURITY.md).
 
-- **SLA**: Initial response within 48 hours; status update and triage within 5 business days.
+- **Response targets (best effort)**: Initial response within 48 hours; status update and triage within 5 business days.
 - **Contact**: [GitHub private vulnerability reporting](https://github.com/ellmos-ai/report-forge/security/advisories/new) (no monitored mailbox)
 
 ---

@@ -34,7 +34,7 @@
 
 If you discover a security vulnerability or privacy leak in `report-forge`, please report it privately:
 
-1. **GitHub Security Advisory (Preferred):** Open a private report at [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories).
+1. **GitHub Security Advisory (Preferred):** Open a private report at [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories/new).
 2. **No e-mail channel:** There is currently no monitored mailbox for security reports. Please use [Report a vulnerability](https://github.com/ellmos-ai/report-forge/security/advisories/new) instead of e-mail.
 
 **Response targets (best effort, single maintainer, not a contractual SLA):**
@@ -71,7 +71,7 @@ Please do not disclose potential vulnerabilities publicly in issues or pull requ
 
 Wenn Sie eine Sicherheitslücke oder einen Datenschutzmangel in `report-forge` entdecken, melden Sie dies bitte vertraulich:
 
-1. **GitHub Security Advisory (Bevorzugt):** Erstellen Sie einen privaten Bericht unter [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories).
+1. **GitHub Security Advisory (Bevorzugt):** Erstellen Sie einen privaten Bericht unter [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories/new).
 2. **Kein E-Mail-Kanal:** Derzeit gibt es kein überwachtes Postfach für Sicherheitsmeldungen. Bitte nutzen Sie statt E-Mail [Schwachstelle melden](https://github.com/ellmos-ai/report-forge/security/advisories/new).
 
 **Reaktionsziele (nach bestem Bemühen, ein einzelner Maintainer, keine vertragliche Zusage):**
