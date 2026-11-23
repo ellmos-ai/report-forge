@@ -330,7 +330,9 @@ def test_community_health_and_llm_pointer_files():
     coc = _read_text("CODE_OF_CONDUCT.md")
     assert "Contributor Covenant" in coc
     assert "Verhaltenskodex" in coc
-    assert "security@ellmos.ai" in coc
+    assert "security/advisories/new" in coc
+    for dead in ("security@ellmos.ai", "security@open-bricks.org"):
+        assert dead not in coc, f"undeliverable contact {dead} in CODE_OF_CONDUCT.md"
 
     contrib = _read_text("CONTRIBUTING.md")
     assert "Development Setup" in contrib
