@@ -37,7 +37,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ### Enforcement & Contact
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project team at `security@ellmos.ai` or `security@open-bricks.org`. All complaints will be reviewed and investigated promptly and fairly (initial acknowledgment within 48 hours).
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project team privately via [GitHub private vulnerability reporting](https://github.com/ellmos-ai/report-forge/security/advisories/new). All complaints will be reviewed and investigated promptly and fairly (best-effort initial acknowledgment within 48 hours).
 
 ### Attribution
 
@@ -76,7 +76,7 @@ Die Projektbetreuer sind für die Klärung und Durchsetzung dieser Standards ver
 
 ### Meldung & Kontakt
 
-Vorfälle können vertraulich an `security@ellmos.ai` oder `security@open-bricks.org` gemeldet werden. Alle Hinweise werden zeitnah und fair geprüft (Eingangsbestätigung innerhalb von 48 Stunden).
+Vorfälle können vertraulich über die [private Meldefunktion von GitHub](https://github.com/ellmos-ai/report-forge/security/advisories/new) gemeldet werden. Alle Hinweise werden zeitnah und fair geprüft (Eingangsbestätigung angestrebt innerhalb von 48 Stunden).
 
 ### Quelle
 
