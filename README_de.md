@@ -7,11 +7,11 @@ Language: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-43%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-55%20passed-brightgreen.svg)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff-000000.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
-![Security SLA](https://img.shields.io/badge/security-SLA%2048h-brightgreen.svg)
+![Security response target](https://img.shields.io/badge/security-48h%20target%20(best%20effort)-brightgreen.svg)
 ![Status](https://img.shields.io/badge/status-released-brightgreen.svg)
 ![Context](https://img.shields.io/badge/llms.txt-ready-blueviolet.svg)
 ![Organization](https://img.shields.io/badge/organization-ellmos--ai-blue.svg)
@@ -278,7 +278,7 @@ Ausführen der pytest-Suite:
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Alle 43 Tests prüfen:
+Alle 55 Tests prüfen:
 - Funktionale 3-Phasen-Workflows (Plain & Anonymisiert prepare/finish)
 - Word-Vorlagen Platzhalterersetzung & dynamische Tabellengenerierung
 - JSON-Schema-Validierungs-Gates & Fehlerformatierung
@@ -291,8 +291,8 @@ Alle 43 Tests prüfen:
 
 `report-forge` erzwingt strikte Local-First-Verarbeitung, null unerwarteten Netzwerkabfluss und Fail-Closed-Pseudonymisierung. Richtlinien zur Schwachstellenmeldung und Reaktionsfristen finden sich in [SECURITY.md](SECURITY.md).
 
-- **SLA**: Erstreaktion innerhalb von 48 Stunden; Triage und Statusupdate innerhalb von 5 Werktagen.
-- **Kontakt**: `security@ellmos.ai` / `security@open-bricks.org`
+- **Reaktionsziele (nach bestem Bemühen)**: Erstreaktion innerhalb von 48 Stunden; Triage und Statusupdate innerhalb von 5 Werktagen.
+- **Kontakt**: [Private Schwachstellenmeldung bei GitHub](https://github.com/ellmos-ai/report-forge/security/advisories/new) (kein überwachtes Postfach)
 
 ---
 

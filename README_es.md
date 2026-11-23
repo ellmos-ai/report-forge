@@ -9,11 +9,11 @@ Idioma: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.md
 ![Integración continua (CI)](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![Licencia](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-43%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-55%20passed-brightgreen.svg)
 ![Estilo del código](https://img.shields.io/badge/code%20style-ruff-000000.svg)
 ![Arquitectura](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacidad](https://img.shields.io/badge/privacy-Local--First-orange.svg)
-![SLA de seguridad](https://img.shields.io/badge/security-SLA%2048h-brightgreen.svg)
+![Objetivo de respuesta de seguridad](https://img.shields.io/badge/security-48h%20target%20(best%20effort)-brightgreen.svg)
 ![Estado](https://img.shields.io/badge/status-released-brightgreen.svg)
 ![Contexto](https://img.shields.io/badge/llms.txt-ready-blueviolet.svg)
 ![Organización](https://img.shields.io/badge/organization-ellmos--ai-blue.svg)
@@ -291,7 +291,7 @@ Ejecuta la suite completa de pytest:
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Las 43 pruebas verifican:
+Las 55 pruebas verifican:
 - Los flujos funcionales de tres fases (prepare/finish con modos plain y anonimizado)
 - La sustitución de marcadores en plantillas DOCX y la generación dinámica de tablas
 - Las puertas de validación de JSON Schema y el formato de errores
@@ -305,8 +305,8 @@ Las 43 pruebas verifican:
 
 `report-forge` aplica procesamiento local primero, cero salida de red inesperada y seudonimización con denegación segura ante fallos. Consulta [`SECURITY.md`](SECURITY.md) para conocer las políticas de seguridad y cómo informar sobre vulnerabilidades.
 
-- **SLA**: respuesta inicial en un plazo de 48 horas; actualización de estado y triaje en un plazo de 5 días laborables.
-- **Contacto**: `security@ellmos.ai` / `security@open-bricks.org`
+- **Objetivos de respuesta (sin garantía)**: respuesta inicial en un plazo de 48 horas; actualización de estado y triaje en un plazo de 5 días laborables.
+- **Contacto**: [Notificación privada de vulnerabilidades de GitHub](https://github.com/ellmos-ai/report-forge/security/advisories/new) (no hay buzón supervisado)
 
 ---
 

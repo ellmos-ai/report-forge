@@ -7,11 +7,11 @@ Language: [English](README.md) | [Deutsch](README_de.md) | [Español](README_es.
 ![CI](https://github.com/ellmos-ai/report-forge/actions/workflows/tests.yml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
-![Pytest](https://img.shields.io/badge/pytest-43%20passed-brightgreen.svg)
+![Pytest](https://img.shields.io/badge/pytest-55%20passed-brightgreen.svg)
 ![Code Style](https://img.shields.io/badge/code%20style-ruff-000000.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Domain--Neutral-green.svg)
 ![Privacy](https://img.shields.io/badge/privacy-Local--First-orange.svg)
-![Security SLA](https://img.shields.io/badge/security-SLA%2048h-brightgreen.svg)
+![Security response target](https://img.shields.io/badge/security-48h%20target%20(best%20effort)-brightgreen.svg)
 ![Status](https://img.shields.io/badge/status-released-brightgreen.svg)
 ![Context](https://img.shields.io/badge/llms.txt-ready-blueviolet.svg)
 ![Organization](https://img.shields.io/badge/organization-ellmos--ai-blue.svg)
@@ -278,7 +278,7 @@ Run the comprehensive pytest suite:
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-All 43 tests verify:
+All 55 tests verify:
 - Functional 3-phase workflows (plain & anonymized prepare/finish)
 - DOCX template placeholder substitution & dynamic table generation
 - JSON schema validation gates & error formatting
@@ -291,8 +291,8 @@ All 43 tests verify:
 
 `report-forge` enforces strict local-first processing, zero unexpected network egress, and fail-closed pseudonymization. For vulnerability disclosures and security policies, see [SECURITY.md](SECURITY.md).
 
-- **SLA**: Initial response within 48 hours; status update and triage within 5 business days.
-- **Contact**: `security@ellmos.ai` / `security@open-bricks.org`
+- **Response targets (best effort)**: Initial response within 48 hours; status update and triage within 5 business days.
+- **Contact**: [GitHub private vulnerability reporting](https://github.com/ellmos-ai/report-forge/security/advisories/new) (no monitored mailbox)
 
 ---
 
