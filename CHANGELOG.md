@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — 2026-11-23
+
+- Security reporting channel fix: `SECURITY.md`, `README.md`, `README_de.md` and `README_es.md` advertised `security@ellmos.ai`, `security@open-bricks.org`, `lukas@open-bricks.org` and `support@lukasgeiger.com`; these addresses are not deliverable. The supported channel is now GitHub private vulnerability reporting, and the response times are described as best-effort targets. `tests/test_metadata.py` now requires the advisory link and forbids the dead addresses. Version remains unchanged.
+
 ## Unreleased — 2026-11-03
 
 - Prevent repeated and concurrent publication from overwriting existing reports. Stage a complete private copy, then publish under a free name using Windows no-replace rename or a hardlink on other systems; fail explicitly on unsupported operations. Windows publication does not require hardlinks.

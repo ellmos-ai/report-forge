@@ -35,9 +35,9 @@
 If you discover a security vulnerability or privacy leak in `report-forge`, please report it privately:
 
 1. **GitHub Security Advisory (Preferred):** Open a private report at [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories).
-2. **Email Contacts:** Send vulnerability details to `security@open-bricks.org` and `security@ellmos.ai` (CC: `lukas@open-bricks.org`, `support@lukasgeiger.com`).
+2. **No e-mail channel:** There is currently no monitored mailbox for security reports. Please use [Report a vulnerability](https://github.com/ellmos-ai/report-forge/security/advisories/new) instead of e-mail.
 
-**Service Level Agreement (SLA):**
+**Response targets (best effort, single maintainer, not a contractual SLA):**
 - **Acknowledgment:** Within 48 hours.
 - **Triage & Status Assessment:** Within 5 business days.
 - **Remediation & Release Coordination:** As rapidly as verified automated tests permit.
@@ -72,9 +72,9 @@ Please do not disclose potential vulnerabilities publicly in issues or pull requ
 Wenn Sie eine Sicherheitslücke oder einen Datenschutzmangel in `report-forge` entdecken, melden Sie dies bitte vertraulich:
 
 1. **GitHub Security Advisory (Bevorzugt):** Erstellen Sie einen privaten Bericht unter [ellmos-ai/report-forge Security Advisories](https://github.com/ellmos-ai/report-forge/security/advisories).
-2. **E-Mail-Kontakt:** Senden Sie Ihren Bericht an `security@open-bricks.org` und `security@ellmos.ai` (CC: `lukas@open-bricks.org`, `support@lukasgeiger.com`).
+2. **Kein E-Mail-Kanal:** Derzeit gibt es kein überwachtes Postfach für Sicherheitsmeldungen. Bitte nutzen Sie statt E-Mail [Schwachstelle melden](https://github.com/ellmos-ai/report-forge/security/advisories/new).
 
-**Verbindliche Reaktionsfristen (SLA):**
+**Reaktionsziele (nach bestem Bemühen, ein einzelner Maintainer, keine vertragliche Zusage):**
 - **Eingangsbestätigung:** Innerhalb von 48 Stunden.
 - **Ersteinschätzung (Triage):** Innerhalb von 5 Werktagen.
 - **Behebung:** Schnellstmöglich nach bestandener Verifikation in der Testsuite.

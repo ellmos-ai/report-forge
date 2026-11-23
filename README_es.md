@@ -306,7 +306,7 @@ Las 43 pruebas verifican:
 `report-forge` aplica procesamiento local primero, cero salida de red inesperada y seudonimización con denegación segura ante fallos. Consulta [`SECURITY.md`](SECURITY.md) para conocer las políticas de seguridad y cómo informar sobre vulnerabilidades.
 
 - **SLA**: respuesta inicial en un plazo de 48 horas; actualización de estado y triaje en un plazo de 5 días laborables.
-- **Contacto**: `security@ellmos.ai` / `security@open-bricks.org`
+- **Contacto**: [Notificación privada de vulnerabilidades de GitHub](https://github.com/ellmos-ai/report-forge/security/advisories/new) (no hay buzón supervisado)
 
 ---
 
