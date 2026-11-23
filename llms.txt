@@ -11,7 +11,7 @@
 - **License**: MIT
 - **Last Checked**: 2026-09-11
 - **Language**: Python 3.10+
-- **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module (>=0.2.5), bilingual SECURITY.md with 48h SLA
+- **Security & Privacy**: Local-first, zero-egress, fail-closed anonymization mode support via `anonymizer` module (>=0.2.5), bilingual SECURITY.md with a best-effort 48h response target via GitHub private vulnerability reporting
 - **Documentation**: README.md (English), README_de.md (German), README_es.md (Spanish), SKILL.md (agent skill guide), MARKETING-LOG.txt (discoverability & blueprints)
 
 ## Overview
@@ -59,4 +59,4 @@ finished = workflow.finish(
 PYTHONIOENCODING=utf-8 python -m pytest tests/ -ra -q
 ```
 
-Current local verification (2026-09-11): 43/43 Pytest tests (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass.
+Current local verification (2026-11-23): 55 Pytest tests (1 Windows-only skip on Linux/macOS) (including contract & metadata tests), ruff check, compileall, CLI help/version/info, and git diff --check pass.
